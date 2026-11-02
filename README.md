@@ -1,4 +1,4 @@
-# Down ☀️
+# Down 
 ### Personalized Activity Recommendation App
 
 ## About the Project
