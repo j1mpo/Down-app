@@ -1,0 +1,988 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="theme-color" content="#0c1115" />
+<title>Down — Less planning. More living.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #120f17;
+    --panel: #1b1722;
+    --panel-2: #241e2e;
+    --panel-3: #2e263a;
+    --ink: #faf6ff;
+    --muted: #a79fb8;
+    --muted-2: #7d7590;
+    --line: rgba(255,255,255,.09);
+    --lime: #ff8f7a;
+    --lime-2: #ff7a8a;
+    --teal: #a78bfa;
+    --peach: #ffc08a;
+    --lavender: #c4b5fd;
+    --radius: 22px;
+    --shadow: 0 24px 80px rgba(0,0,0,.35);
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0; min-height: 100vh; color: var(--ink);
+    background:
+      radial-gradient(ellipse at 9% 2%, rgba(167,139,250,.11), transparent 34%),
+      radial-gradient(ellipse at 88% 86%, rgba(255,143,122,.08), transparent 32%), var(--bg);
+    font-family: "Plus Jakarta Sans", Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    letter-spacing: -.01em;
+  }
+  button, input { font: inherit; }
+  button { cursor: pointer; }
+  button:focus-visible, input:focus-visible { outline: 2px solid var(--lime); outline-offset: 3px; }
+  .stage { max-width: 1220px; margin: 0 auto; padding: 30px 28px 36px; display: grid; grid-template-columns: minmax(270px, .8fr) minmax(360px, 420px) minmax(230px, .65fr); gap: 38px; align-items: center; min-height: 100vh; }
+  .intro { padding: 22px 0; align-self: center; }
+  .brand { display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+  .brand-mark { width: 32px; height: 32px; border-radius: 11px; background: var(--lime); display: grid; place-items: center; color: #2a0f0a; box-shadow: 0 0 28px rgba(255,143,122,.18); }
+  .brand-mark svg { width: 20px; height: 20px; }
+  .eyebrow { display: inline-flex; align-items: center; gap: 8px; margin: 42px 0 18px; color: var(--teal); text-transform: uppercase; font-size: 10px; letter-spacing: .17em; font-weight: 800; }
+  .eyebrow:before { content: ''; width: 21px; height: 1px; background: var(--teal); }
+  h1 { margin: 0; font-size: clamp(38px, 4.6vw, 58px); letter-spacing: -.065em; line-height: .99; font-weight: 730; max-width: 500px; }
+  h1 span { color: var(--lime); }
+  .intro-copy { color: #9aabad; font-size: 14px; line-height: 1.7; max-width: 345px; margin: 22px 0 26px; }
+  .value-pills { display:flex; flex-wrap: wrap; gap: 8px; }
+  .value-pill { color: #c9d2ce; border: 1px solid var(--line); background: rgba(255,255,255,.025); padding: 9px 12px; border-radius: 999px; font-size: 10px; }
+  .value-pill b { color: var(--lime); font-weight: 650; margin-right: 5px; }
+  .intro-foot { margin-top: 48px; color: #607075; font-size: 10px; line-height: 1.6; max-width: 300px; }
+  .phone-wrap { position: relative; display: flex; justify-content: center; }
+  .phone-glow { position: absolute; inset: 15% -10%; background: radial-gradient(ellipse, rgba(167,139,250,.105), transparent 65%); filter: blur(18px); pointer-events:none; }
+  .phone { position: relative; width: 100%; max-width: 390px; min-height: 760px; height: min(850px, calc(100vh - 42px)); border: 1px solid rgba(236,255,248,.16); border-radius: 39px; background: #0e151a; box-shadow: 0 32px 90px rgba(0,0,0,.56), inset 0 0 0 5px rgba(255,255,255,.025); overflow: hidden; display:flex; flex-direction: column; }
+  .status { flex: 0 0 36px; display:flex; align-items:center; justify-content:space-between; padding: 8px 24px 0; font-size: 10px; font-weight: 750; color: #e5ece7; }
+  .status-icons { display:flex; gap: 5px; align-items:center; }
+  .status-icons span { display:block; width:4px; height:7px; border-radius: 2px; background: #e5ece7; opacity: .85; }
+  .status-icons .battery { width:16px; height:8px; border:1px solid #e5ece7; border-radius:3px; position:relative; background:linear-gradient(90deg,#e5ece7 70%,transparent 70%); }
+  .status-icons .battery:after { content:''; position:absolute; right:-3px; height:3px; width:2px; background:#e5ece7; top:2px; }
+  .app-header { padding: 8px 22px 13px; display:flex; justify-content:space-between; align-items:center; }
+  .app-brand { display:flex; align-items:center; gap:8px; font-size:17px; letter-spacing:-.045em; font-weight:800; }
+  .app-brand .brand-mark { width:26px; height:26px; border-radius:9px; }
+  .app-brand .brand-mark svg { width:16px; height:16px; }
+  .group-selector { border:1px solid var(--line); background:#151f24; border-radius:999px; padding:7px 10px; color:#c8d2cf; font-size:10px; display:flex; gap:6px; align-items:center; }
+  .group-dot { width:6px; height:6px; border-radius:50%; background:var(--lime); box-shadow:0 0 8px rgba(255,143,122,.6); }
+  .screen { display:none; flex:1; padding: 5px 20px 16px; overflow-y:auto; scrollbar-width:none; animation: screenIn .22s ease-out; }
+  .screen::-webkit-scrollbar { display:none; }
+  .screen.active { display:block; }
+  @keyframes screenIn { from { opacity:.2; transform:translateY(5px); } to { opacity:1; transform:none; } }
+  .greeting { color:var(--muted); font-size:11px; display:flex; align-items:center; gap:7px; margin: 8px 0 8px; }
+  .greeting .live-dot { width:6px;height:6px;border-radius:50%;background:var(--teal); }
+  h2 { font-size:27px; line-height:1.05; letter-spacing:-.055em; margin:0; font-weight:730; }
+  h2 em { color:var(--lime); font-style:normal; }
+  .subcopy { color:var(--muted); font-size:11px; line-height:1.55; margin:10px 0 18px; }
+  .hero-card { position:relative; padding:18px; border-radius:24px; overflow:hidden; background:linear-gradient(135deg,#26372e 0%, #1a2929 52%, #241e2e 100%); border:1px solid rgba(255,143,122,.15); min-height:188px; }
+  .hero-card:before { content:''; position:absolute; right:-16px; top:-44px; width:176px; height:176px; border:1px solid rgba(255,143,122,.18); border-radius:50%; box-shadow:0 0 0 18px rgba(255,143,122,.035),0 0 0 36px rgba(255,143,122,.025); }
+  .hero-card:after { content:''; position:absolute; right:23px; top:30px; width:72px; height:72px; border-radius:50%; background:radial-gradient(circle at 35% 35%, var(--lime), #82a94b 43%, #294037 70%); filter:blur(.2px); box-shadow:0 0 35px rgba(255,143,122,.16); opacity:.88; }
+  .hero-content { position:relative; z-index:1; max-width:230px; }
+  .mini-label { text-transform:uppercase; font-size:9px; letter-spacing:.16em; font-weight:800; color:var(--lime); }
+  .hero-card h3 { margin:12px 0 8px; font-size:22px; letter-spacing:-.05em; line-height:1.05; max-width:205px; }
+  .hero-card p { margin:0; color:#b9c8bd; font-size:10px; line-height:1.5; max-width:195px; }
+  .primary-btn { border:0; color:#2a0f0a; background:var(--lime); border-radius:14px; padding:13px 15px; font-size:11px; font-weight:850; display:flex; align-items:center; justify-content:center; gap:9px; width:100%; transition:transform .15s,background .15s; }
+  .primary-btn:hover { transform:translateY(-1px); background:#e5ff9a; }
+  .primary-btn svg { width:15px; height:15px; }
+  .hero-card .primary-btn { width:auto; margin-top:15px; padding:11px 13px; border-radius:12px; position:relative; z-index:2; }
+  .section-heading { display:flex; justify-content:space-between; align-items:center; margin:23px 1px 11px; }
+  .section-heading h3 { font-size:13px; margin:0; letter-spacing:-.025em; }
+  .text-btn { background:none; border:0; color:var(--teal); font-size:10px; padding:4px 0; }
+  .momentum { background:var(--panel); border:1px solid var(--line); padding:14px; border-radius:19px; }
+  .moment-top { display:flex; justify-content:space-between; align-items:flex-start; }
+  .moment-label { font-size:10px; color:#e0e8e1; font-weight:700; }
+  .moment-caption { font-size:9px; color:var(--muted); margin-top:5px; }
+  .moment-number { font-size:16px; font-weight:800; letter-spacing:-.04em; color:var(--lime); }
+  .avatar-stack { display:flex; align-items:center; margin-top:13px; }
+  .avatar { width:29px; height:29px; border-radius:50%; border:2px solid var(--panel); display:grid; place-items:center; margin-left:-5px; font-size:9px; font-weight:800; color:#1a2523; }
+  .avatar:first-child { margin-left:0; }
+  .a1 { background:#b9e7d4; }.a2 { background:#f5c2a6; }.a3 { background:#c2b8fd; }.a4 { background:#f1d47d; }.a5 { background:#9bd4e3; }
+  .avatar.anon { color:#bdcbc6; background:#28363a; border:2px solid var(--panel); }
+  .stack-label { color:var(--muted); font-size:9px; margin-left:9px; }
+  .progress-track { height:4px; background:#2a3739; border-radius:99px; overflow:hidden; margin-top:12px; }
+  .progress-track span { display:block; height:100%; width:66%; border-radius:99px; background:linear-gradient(90deg,var(--teal),var(--lime)); transition:width .25s ease; }
+  .micro-note { color:#728387; font-size:9px; margin-top:9px; line-height:1.5; }
+  .suggestion-list { display:grid; gap:8px; }
+  .suggestion { display:flex; align-items:center; gap:12px; border:1px solid var(--line); background:var(--panel); padding:11px; border-radius:16px; text-align:left; color:inherit; width:100%; }
+  .suggestion-art { width:44px;height:44px;border-radius:13px;display:grid;place-items:center;font-size:20px; flex-shrink:0; }
+  .art-peach { background:#3a2a27; }.art-blue { background:#202e3e; }.art-purple { background:#312b42; }.art-yellow { background:#393725; }
+  .suggestion-info { flex:1; min-width:0; }
+  .suggestion-title { font-size:11px; font-weight:750; }
+  .suggestion-meta { font-size:9px; color:var(--muted); margin-top:5px; }
+  .suggestion-score { font-size:11px; font-weight:800; color:var(--lime); }
+  .bottom-nav { flex:0 0 72px; display:flex; justify-content:space-around; align-items:center; padding: 6px 13px 11px; border-top:1px solid rgba(255,255,255,.065); background:rgba(18,15,23,.97); }
+  .nav-item { display:flex; flex-direction:column; align-items:center; gap:5px; background:none; border:0; color:#6f7e81; min-width:58px; padding:5px 3px; font-size:8px; font-weight:700; }
+  .nav-item svg { width:19px;height:19px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round; }
+  .nav-item.active { color:var(--lime); }
+  .nav-item.active svg { filter:drop-shadow(0 0 6px rgba(255,143,122,.2)); }
+  .screen-title-row { display:flex; justify-content:space-between; gap:10px; align-items:center; margin: 9px 0 14px; }
+  .back-btn { border:1px solid var(--line); width:33px;height:33px;border-radius:11px;background:var(--panel);color:var(--ink);display:grid;place-items:center;flex-shrink:0; }
+  .back-btn svg { width:15px;height:15px; }
+  .screen-title-row h2 { font-size:24px; flex:1; }
+  .step-counter { font-size:9px; color:var(--muted); white-space:nowrap; }
+  .field-label { font-size:10px; color:#d5dfda; font-weight:750; margin:17px 0 9px; display:flex;justify-content:space-between; }
+  .field-label span { color:var(--muted); font-weight:500; }
+  .mood-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+  .mood-option { border:1px solid var(--line); background:var(--panel); color:var(--ink); text-align:left; border-radius:17px; padding:13px 12px; min-height:78px; transition:.15s; }
+  .mood-option.selected { border-color:rgba(255,143,122,.7); background:rgba(255,143,122,.075); box-shadow:inset 0 0 0 1px rgba(255,143,122,.12); }
+  .mood-emoji { font-size:19px; display:block; margin-bottom:7px; }
+  .mood-name { display:block;font-size:11px;font-weight:800; }
+  .mood-hint { display:block;color:var(--muted);font-size:9px;margin-top:4px; }
+  .chip-row { display:flex; flex-wrap:wrap; gap:7px; }
+  .chip { border:1px solid var(--line); border-radius:999px; background:var(--panel); color:#aab8b5; padding:9px 12px; font-size:10px; }
+  .chip.selected { border-color:var(--teal); color:var(--teal); background:rgba(167,139,250,.07); }
+  .budget-row { display:flex; gap:7px; }
+  .budget-option { flex:1; background:var(--panel); color:#9caaa7; border:1px solid var(--line); padding:11px 4px; border-radius:13px; font-size:10px; }
+  .budget-option.selected { color:var(--lime);border-color:rgba(255,143,122,.65);background:rgba(255,143,122,.06); }
+  .privacy-box { margin:18px 0 14px; border:1px solid rgba(167,139,250,.16); border-radius:16px; background:rgba(167,139,250,.045); padding:12px; display:flex; gap:10px; align-items:flex-start; }
+  .privacy-box svg { width:16px;height:16px;stroke:var(--teal);fill:none;flex-shrink:0; }
+  .privacy-box strong { font-size:10px;display:block; margin-bottom:4px; }
+  .privacy-box p { font-size:9px;line-height:1.5;margin:0;color:var(--muted); }
+  .full-note { font-size:9px;line-height:1.5;color:var(--muted);text-align:center;margin:10px 0 3px; }
+  .pulse-orbit { width:112px;height:112px;margin:15px auto 16px;border-radius:50%;border:1px solid rgba(167,139,250,.25);display:grid;place-items:center;position:relative;box-shadow:0 0 0 12px rgba(167,139,250,.035),0 0 0 24px rgba(167,139,250,.02); }
+  .pulse-orbit:before,.pulse-orbit:after { content:'';position:absolute;inset:12px;border:1px solid rgba(255,143,122,.3);border-radius:50%;animation:orbit 3.5s ease-out infinite; }
+  .pulse-orbit:after { animation-delay:1.7s; }
+  @keyframes orbit { 0% { transform:scale(.68);opacity:.9; } 100% { transform:scale(1.55);opacity:0; } }
+  .pulse-core { width:54px;height:54px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 35% 30%,#e3ff9e,#9bc64f 58%,#426544);color:#14200c;box-shadow:0 0 27px rgba(255,143,122,.22); }
+  .pulse-core svg { width:24px;height:24px; }
+  .center { text-align:center; }
+  .status-pill { display:inline-flex;gap:6px;align-items:center;border-radius:999px;padding:6px 9px;background:rgba(167,139,250,.08);border:1px solid rgba(167,139,250,.16);color:var(--teal);font-size:9px;font-weight:750; }
+  .status-pill .tiny-dot { width:5px;height:5px;border-radius:50%;background:currentColor; }
+  .center h2 { margin-top:13px; }
+  .center .subcopy { max-width:250px;margin:10px auto 17px; }
+  .signal-card { border-radius:18px;background:var(--panel);border:1px solid var(--line);padding:14px;margin:15px 0; text-align:left; }
+  .signal-line { display:flex;justify-content:space-between;align-items:center;margin:9px 0;gap:9px; }
+  .signal-line .label { font-size:10px;color:#c7d1ce; }
+  .signal-line .value { font-size:10px;color:var(--teal);font-weight:750; }
+  .muted-bar { height:4px;border-radius:99px;background:#2a3739;overflow:hidden; margin-top:7px; }
+  .muted-bar span { height:100%;display:block;border-radius:99px;background:linear-gradient(90deg,var(--teal),var(--lime)); }
+  .secondary-btn { background:transparent;border:1px solid var(--line);color:#c4d0cb;border-radius:13px;padding:12px 14px;font-size:10px;font-weight:750;width:100%; }
+  .secondary-btn:hover { border-color:rgba(255,143,122,.5); }
+  .disclaimer { color:#607074;font-size:8px;line-height:1.45;text-align:center;margin:12px 4px 2px; }
+  .match-hero { border-radius:22px; background:linear-gradient(145deg,#28372b,#1c2929 60%,#171f23);border:1px solid rgba(255,143,122,.16);padding:16px;position:relative;overflow:hidden;margin-bottom:12px; }
+  .match-hero:after { content:'✳';position:absolute;right:15px;top:12px;font-size:50px;color:rgba(255,143,122,.14);transform:rotate(12deg); }
+  .match-hero h3 { font-size:23px;letter-spacing:-.05em;line-height:1.03;margin:11px 0 8px;max-width:230px; }
+  .match-hero p { font-size:10px;line-height:1.5;color:#bfcbc3;margin:0;max-width:230px; }
+  .match-stats { display:flex;gap:8px;margin:11px 0; }
+  .stat { flex:1;background:var(--panel);border:1px solid var(--line);border-radius:15px;padding:12px; }
+  .stat-number { font-size:20px;letter-spacing:-.05em;font-weight:800;color:var(--lime); }
+  .stat-label { font-size:8px;color:var(--muted);margin-top:3px;line-height:1.4; }
+  .plan-card { background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:13px; margin-bottom:10px; }
+  .plan-art { height:88px;border-radius:14px;background:linear-gradient(115deg,#51423a,#2c3430 60%,#202c30);overflow:hidden;position:relative;display:flex;align-items:flex-end;padding:12px;margin-bottom:12px; }
+  .plan-art:before { content:'';position:absolute;width:90px;height:90px;top:-20px;right:30px;border:1px solid rgba(255,228,179,.28);border-radius:50%;box-shadow:0 0 0 12px rgba(255,228,179,.04),0 0 0 24px rgba(255,228,179,.03); }
+  .plan-art:after { content:'☾';font-size:66px;line-height:1;position:absolute;right:35px;top:0;color:rgba(255,232,194,.68); }
+  .plan-art-tag { position:relative;z-index:1;font-size:8px;text-transform:uppercase;letter-spacing:.12em;color:#fff1d5;font-weight:800; }
+  .plan-topline { display:flex;justify-content:space-between;align-items:center;gap:10px; }
+  .plan-title { font-size:14px;font-weight:800;letter-spacing:-.03em; }
+  .mini-badge { border-radius:999px;background:rgba(255,143,122,.09);border:1px solid rgba(255,143,122,.2);color:var(--lime);font-size:8px;font-weight:800;padding:5px 7px;white-space:nowrap; }
+  .plan-sub { margin-top:6px;font-size:9px;color:var(--muted); }
+  .plan-details { display:flex;gap:8px;margin-top:12px;flex-wrap:wrap; }
+  .plan-detail { background:#1d292e;border-radius:9px;padding:7px 8px;color:#c2cfca;font-size:9px;display:flex;gap:5px;align-items:center; }
+  .plan-detail span { color:var(--teal); }
+  .confidence { background:rgba(255,143,122,.045);border:1px solid rgba(255,143,122,.15);border-radius:16px;padding:12px;margin:10px 0 13px; }
+  .confidence-top { display:flex;justify-content:space-between;align-items:center;gap:8px; }
+  .confidence-label { font-size:10px;font-weight:750; }
+  .confidence-score { font-size:20px;color:var(--lime);font-weight:850;letter-spacing:-.04em; }
+  .confidence p { margin:6px 0 9px;font-size:9px;color:var(--muted);line-height:1.5; }
+  .confidence .muted-bar { height:5px; }
+  .soft-row { display:flex;gap:8px;align-items:center;margin:12px 0; }
+  .soft-row .avatar-stack { margin:0; }
+  .soft-copy { font-size:9px;color:var(--muted);line-height:1.45;flex:1; }
+  .soft-copy b { color:#e6eee9; }
+  .idea-option { width:100%;display:flex;align-items:center;gap:10px;text-align:left;background:var(--panel);border:1px solid var(--line);border-radius:15px;padding:10px;color:var(--ink);margin-bottom:8px; }
+  .idea-option.selected { border-color:rgba(167,139,250,.6);background:rgba(167,139,250,.05); }
+  .idea-icon { width:37px;height:37px;border-radius:12px;display:grid;place-items:center;background:#27332d;font-size:17px;flex-shrink:0; }
+  .idea-text { flex:1; }
+  .idea-text b { display:block;font-size:10px; }
+  .idea-text small { display:block;font-size:8px;color:var(--muted);margin-top:4px; }
+  .radio-dot { width:16px;height:16px;border-radius:50%;border:1px solid #657572;display:grid;place-items:center;flex-shrink:0; }
+  .idea-option.selected .radio-dot { border-color:var(--teal); }
+  .idea-option.selected .radio-dot:after { content:'';width:8px;height:8px;border-radius:50%;background:var(--teal); }
+  .reveal-list { display:grid;gap:7px;margin:14px 0; }
+  .person-row { display:flex;align-items:center;gap:10px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:10px; }
+  .person-face { width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-size:11px;font-weight:850;color:#2a0f0a;flex-shrink:0; }
+  .person-name { font-size:10px;font-weight:750; }
+  .person-status { font-size:8px;color:var(--muted);margin-top:4px; }
+  .person-tag { margin-left:auto;font-size:8px;color:var(--teal); }
+  .slider-row { display:flex;align-items:center;gap:9px; }
+  .slider-row input { width:100%;accent-color:var(--lime); }
+  .slider-value { color:var(--lime);font-size:10px;font-weight:800;min-width:32px;text-align:right; }
+  .toggle-row { display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--line);font-size:10px; }
+  .toggle-row small { display:block;color:var(--muted);font-size:8px;margin-top:4px; }
+  .toggle { position:relative;width:37px;height:21px;border-radius:999px;background:#344246;border:0;padding:0; }
+  .toggle:after { content:'';position:absolute;top:3px;left:3px;width:15px;height:15px;border-radius:50%;background:#cbd5d0;transition:left .2s; }
+  .toggle.on { background:#62803f; }.toggle.on:after { left:19px;background:var(--lime); }
+  .toast { position:absolute;z-index:20;top:46px;left:15px;right:15px;transform:translateY(-140%);opacity:0;transition:transform .25s,opacity .25s;background:#ffd3c9;color:#2a0f0a;padding:12px 14px;border-radius:14px;box-shadow:0 10px 30px rgba(0,0,0,.25);font-size:11px;font-weight:750;display:flex;align-items:center;gap:8px; }
+  .toast.show { transform:translateY(0);opacity:1; }
+  .toast span { font-size:15px; }
+  .side-notes { align-self:center; }
+  .side-kicker { color:var(--teal);text-transform:uppercase;letter-spacing:.16em;font-size:9px;font-weight:850;margin-bottom:17px; }
+  .side-notes h3 { font-size:21px;line-height:1.1;letter-spacing:-.045em;margin:0 0 13px; }
+  .side-notes > p { color:#86979a;font-size:12px;line-height:1.7;margin:0 0 22px; }
+  .feature-row { display:flex;gap:12px;margin:16px 0; }
+  .feature-icon { width:32px;height:32px;flex-shrink:0;border-radius:11px;background:#1c2b2b;color:var(--teal);display:grid;place-items:center; }
+  .feature-icon svg { width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round; }
+  .feature-row strong { display:block;font-size:11px;margin:1px 0 5px; }
+  .feature-row p { margin:0;color:#758588;font-size:10px;line-height:1.55; }
+  .demo-label { margin-top:27px;border-top:1px solid var(--line);padding-top:17px;color:#607075;font-size:9px;line-height:1.55; }
+  .demo-label b { color:#97a7a4; }
+  .modal-backdrop { position:absolute;inset:0;background:rgba(0,0,0,.63);z-index:30;display:none;align-items:flex-end;justify-content:center;padding:15px;backdrop-filter:blur(4px); }
+  .modal-backdrop.open { display:flex; }
+  .modal { width:100%;background:#241e2e;border:1px solid rgba(255,255,255,.12);border-radius:24px;padding:20px;box-shadow:0 -10px 50px rgba(0,0,0,.4);animation:rise .2s ease-out; }
+  @keyframes rise { from { transform:translateY(16px);opacity:.5; } to { transform:none;opacity:1; } }
+  .modal-grab { width:37px;height:4px;border-radius:99px;background:#506065;margin:-8px auto 19px; }
+  .modal h3 { font-size:21px;letter-spacing:-.045em;margin:0 0 8px; }
+  .modal p { color:var(--muted);font-size:11px;line-height:1.6;margin:0 0 17px; }
+  .modal-actions { display:grid;gap:8px;margin-top:14px; }
+  .modal-close { position:absolute;top:18px;right:18px;background:transparent;border:0;color:#a9b7b2;font-size:20px; }
+  .toast, .phone button { -webkit-tap-highlight-color:transparent; }
+  @media (max-width: 1060px) {
+    .stage { grid-template-columns: minmax(210px,.7fr) minmax(350px,420px); gap:28px; max-width:900px; }
+    .side-notes { display:none; }
+    h1 { font-size:48px; }
+  }
+  @media (max-width: 680px) {
+    body { background:var(--bg); }
+    .stage { display:block;padding:0;min-height:100vh; }
+    .intro { display:none; }
+    .phone-wrap { display:block; }
+    .phone-glow { display:none; }
+    .phone { max-width:none;width:100%;height:100dvh;min-height:650px;border:0;border-radius:0;box-shadow:none; }
+    .status { padding-top:9px; }
+    .screen { padding-left:20px;padding-right:20px; }
+    .bottom-nav { padding-bottom:max(11px, env(safe-area-inset-bottom)); }
+  }
+  @media (max-height: 800px) and (min-width: 681px) {
+    .stage { padding-top:15px;padding-bottom:15px; }
+    .phone { min-height:700px;height:calc(100vh - 30px); }
+    .intro-foot { margin-top:30px; }
+    .eyebrow { margin-top:26px; }
+  }
+  .sr-only { position:absolute; width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0; }
+
+  .in{width:100%;background:var(--panel);border:1px solid var(--line);color:var(--ink);border-radius:12px;padding:11px 12px;font-size:11px;margin:8px 0}
+  .row2{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line);font-size:11px}.row2 .grow{flex:1}.row2 small{display:block;color:var(--muted);font-size:9px;margin-top:3px}
+  .av{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:13px;color:#2a0f0a;flex:none}
+  .pill{font-size:8px;padding:4px 7px;border-radius:99px;border:1px solid var(--line);color:var(--muted);white-space:nowrap}.pill.ok{color:var(--lime);border-color:rgba(255,143,122,.4)}
+  .map{position:relative;height:150px;border-radius:16px;border:1px solid var(--line);overflow:hidden;margin:10px 0;background:repeating-linear-gradient(0deg,transparent 0 24px,rgba(255,255,255,.04) 24px 25px),repeating-linear-gradient(90deg,transparent 0 24px,rgba(255,255,255,.04) 24px 25px),var(--panel-2)}
+  .pin{position:absolute;transform:translate(-50%,-50%);font-size:17px}.pin.me{width:14px;height:14px;border-radius:50%;background:var(--teal);box-shadow:0 0 0 6px rgba(167,139,250,.2)}
+  .post{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:12px;margin:10px 0;font-size:11px;line-height:1.5}.post .meta{display:flex;gap:8px;align-items:center;margin-bottom:6px;color:var(--muted);font-size:9px}
+  .act{background:none;border:0;color:var(--muted);font-size:10px;padding:6px 10px 0 0}.act.on{color:var(--lime)}
+
+  .phone{isolation:isolate}.aurora{position:absolute;inset:0;z-index:-1;overflow:hidden;pointer-events:none;border-radius:inherit}
+  .aurora:before,.aurora:after{content:"";position:absolute;width:260px;height:260px;border-radius:50%;filter:blur(55px);opacity:.38;animation:drift 14s ease-in-out infinite alternate}
+  .aurora:before{background:#8b5cf6;top:-60px;left:-70px}.aurora:after{background:#ff7a59;bottom:60px;right:-90px;animation-delay:-6s}
+  @keyframes drift{to{transform:translate(70px,50px) scale(1.25)}}
+  .phone:after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:50;opacity:.07;mix-blend-mode:overlay;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E")}
+  @keyframes screenIn{from{opacity:0;transform:translateX(var(--dx,0)) scale(.985)}to{opacity:1;transform:none}}
+  .screen.active>*{animation:rise .45s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(var(--i,0)*45ms)}
+  .phone button:active{transform:scale(.95)}.bottom-nav{backdrop-filter:blur(16px);background:rgba(18,15,23,.72)}
+  .nav-item.active svg{animation:npop .4s}@keyframes npop{0%{transform:scale(.7)}60%{transform:scale(1.22)}100%{transform:none}}
+  .toast{background:rgba(32,44,50,.86);color:var(--ink);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.12);border-radius:18px;transform:translateY(-160%) scale(.96)}.toast.show{transform:none}
+  .toast>span{width:28px;height:28px;border-radius:9px;background:var(--lime);color:#2a0f0a;display:grid;place-items:center;font-size:13px;flex:none}
+  #toastText:before{content:"DOWN · NOW";display:block;font-size:8px;letter-spacing:.1em;color:var(--muted);margin-bottom:2px}
+  .hd{display:flex;align-items:center;gap:8px;margin:6px 0 2px;font-size:12px}.hd .grow{flex:1}
+  .ib{position:relative;background:var(--panel);border:1px solid var(--line);color:var(--ink);border-radius:13px;width:36px;height:34px;font-size:16px}
+  .ib u{position:absolute;top:-5px;right:-5px;min-width:16px;height:16px;border-radius:99px;background:#ff4d7d;color:#fff;font-size:9px;font-weight:800;display:grid;place-items:center;text-decoration:none;animation:bd 1.6s infinite}
+  @keyframes bd{50%{transform:scale(1.18)}}
+  .stories{display:flex;gap:13px;overflow-x:auto;padding:8px 2px 12px;scrollbar-width:none}.stories::-webkit-scrollbar{display:none}
+  .story{flex:none;background:none;border:0;color:var(--muted);font-size:9px;text-align:center;padding:0}
+  .ring{position:relative;width:60px;height:60px;border-radius:50%;margin-bottom:5px;overflow:hidden}
+  .ring:before{content:"";position:absolute;inset:-30%;background:conic-gradient(#ff8f7a,#a78bfa,#c4b5fd,#ffc08a,#ff8f7a);animation:spin 5s linear infinite}.ring.seen:before{background:#3a474c;animation:none}
+  @keyframes spin{to{transform:rotate(1turn)}}
+  .ring i{position:absolute;inset:3px;border-radius:50%;background:var(--bg);display:grid;place-items:center;font-style:normal}.ring i .av{width:48px;height:48px}.ring i u{position:absolute;right:0;bottom:0;width:17px;height:17px;border-radius:50%;background:var(--lime);color:#2a0f0a;font-size:12px;font-weight:900;display:grid;place-items:center;text-decoration:none}
+  .sv{position:absolute;inset:0;z-index:40;display:none;flex-direction:column;padding:16px;border-radius:inherit}.sv.open{display:flex;animation:rise .25s}
+  .sv .bars{display:flex;gap:4px;margin:8px 0 12px}.sv .bars i{flex:1;height:3px;border-radius:3px;background:rgba(255,255,255,.3);overflow:hidden}.sv .bars b{display:block;height:100%;background:#fff;width:0}.sv .bars b.d{width:100%}.sv .bars b.a{animation:fill 3.2s linear forwards}@keyframes fill{to{width:100%}}
+  .sv .meta{display:flex;align-items:center;gap:9px;color:#fff;font-size:12px}.sv .meta .grow{flex:1}.sv .act{color:#fff;font-size:16px}
+  .stt{flex:1;display:grid;place-items:center;text-align:center;font-size:27px;font-weight:800;letter-spacing:-.04em;color:#fff;padding:20px;text-shadow:0 4px 24px rgba(0,0,0,.25)}
+  .sr{display:flex;justify-content:center;gap:14px;padding-bottom:10px}.sr button{background:rgba(255,255,255,.2);border:0;border-radius:50%;width:46px;height:46px;font-size:21px;backdrop-filter:blur(8px)}
+  #sxBd.ctr{align-items:center}.modal{max-height:82%;overflow-y:auto;position:relative}.modal.tall{height:80%;display:flex;flex-direction:column;padding:14px}
+  .grab{width:37px;height:4px;border-radius:99px;background:#506065;margin:-6px auto 14px}.modal h3{margin-bottom:12px}
+  .pc{background:var(--panel);border:1px solid var(--line);border-radius:20px;margin:12px 0;overflow:hidden}.pc .meta{display:flex;align-items:center;gap:10px;padding:11px 12px;font-size:11px}.pc .meta .grow{flex:1}.pc small{color:var(--muted);font-size:9px;display:block}
+  .pimg{position:relative;min-height:190px;display:grid;place-content:center;text-align:center;padding:22px;color:#fff;overflow:hidden;user-select:none}
+  .pimg:before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 80% 15%,rgba(255,255,255,.3),transparent 45%)}
+  .pimg .pe{font-size:46px;position:relative}.pimg p{color:#fff;font-size:15px;font-weight:750;letter-spacing:-.03em;position:relative;margin-top:8px;text-shadow:0 2px 14px rgba(0,0,0,.25)}.pimg em{position:relative;display:inline-block;margin-top:8px;font-size:9px;font-style:normal;background:rgba(0,0,0,.25);padding:4px 8px;border-radius:99px}
+  .heart{position:absolute;left:50%;top:50%;font-size:72px;animation:hb .9s forwards;pointer-events:none}@keyframes hb{0%{transform:translate(-50%,-50%) scale(0);opacity:0}25%{transform:translate(-50%,-50%) scale(1.2);opacity:1}100%{transform:translate(-50%,-90%) scale(1);opacity:0}}
+  .pact{display:flex;gap:4px;padding:6px 8px 9px}.pact button{background:none;border:0;color:var(--ink);font-size:12px;padding:6px 9px;border-radius:10px}.pact button.on{color:#ff5d86}
+  .empty{text-align:center;padding:40px 10px;color:var(--muted)}.empty div{font-size:40px}.empty b{display:block;color:var(--ink);margin:6px 0 3px}
+  .msgs{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:6px;padding:4px 2px}.bub{max-width:80%;padding:9px 12px;border-radius:18px 18px 18px 5px;background:var(--panel-3);font-size:12px;line-height:1.4;animation:rise .25s}.bub.me{align-self:flex-end;background:var(--lime);color:#2a0f0a;border-radius:18px 18px 5px 18px}.bub small{display:block;font-size:8px;opacity:.65;font-weight:700;margin-bottom:2px}.bub em{display:block;font-style:normal;font-size:8px;opacity:.55;text-align:right;margin-top:3px}
+  .typing{align-self:flex-start;display:flex;gap:4px;background:var(--panel-3);padding:11px 13px;border-radius:18px}.typing i{width:6px;height:6px;border-radius:50%;background:#9fb0b3;animation:ty 1s infinite}.typing i:nth-child(2){animation-delay:.15s}.typing i:nth-child(3){animation-delay:.3s}@keyframes ty{50%{transform:translateY(-4px);opacity:.5}}
+  .chh{display:flex;align-items:center;gap:9px;padding-bottom:10px;border-bottom:1px solid var(--line);margin-bottom:8px;font-size:13px}.chh .grow{flex:1}.chh .act,.cml~.cin{font-size:18px}
+  .cin{display:flex;gap:8px;align-items:center;margin-top:8px}.cin .in{margin:0}.act{background:none;border:0;color:var(--ink)}
+  .crewrow{display:flex;justify-content:center;gap:18px;margin:14px 0}.crewrow .av{width:52px;height:52px;margin:0 auto 4px;font-size:18px}.crewrow small{display:block;font-size:10px;text-align:center}.crewrow .flip{animation:flp .6s both}@keyframes flp{from{transform:rotateY(90deg) scale(.5);opacity:0}to{transform:none;opacity:1}}
+  .cfw{position:absolute;left:50%;top:0;pointer-events:none}.cf{position:absolute;width:7px;height:11px;border-radius:2px;animation:cfa 1.6s ease-out forwards}@keyframes cfa{to{transform:translate(var(--x),var(--y)) rotate(var(--r));opacity:0}}
+
+  .primary-btn{background:linear-gradient(135deg,var(--g1,#ff7a8a),var(--g2,#ffa26b));box-shadow:0 8px 24px rgba(255,122,138,.28)}.chip.selected,.mood-option.selected{box-shadow:0 0 0 1px var(--lime) inset}
+  .composer{display:flex;align-items:center;gap:10px;width:100%;background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:10px 12px;color:var(--muted);font-size:12px;text-align:left;margin:0 0 12px}.composer .grow{flex:1}
+  .tw{display:flex;gap:10px;padding:13px 2px;border-bottom:1px solid var(--line)}.tw .grow{flex:1;min-width:0}.tw .mut{color:var(--muted);font-size:10px}.tw p.tx{color:var(--ink);font-size:13px;line-height:1.45;margin:3px 0 7px;overflow-wrap:anywhere}.hl{color:var(--teal)}
+  .tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:6px}.tags span{font-size:9px;background:var(--panel-2);border:1px solid var(--line);border-radius:99px;padding:4px 8px}
+  .tact{display:flex;flex-wrap:wrap;gap:4px}.tact button{background:none;border:0;color:var(--muted);font-size:11px;padding:5px 9px;border-radius:99px}.tact button.on{color:var(--lime);background:rgba(255,143,122,.12)}.tact button.go{color:#2a0f0a;background:linear-gradient(135deg,var(--g1,#ff7a8a),var(--g2,#ffa26b));font-weight:800}
+  textarea.in{resize:none;height:74px;font-family:inherit;line-height:1.4}.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px}.g3 .in{margin:0}
+  input[type=range]{width:100%;accent-color:#ff8f7a;margin:8px 0}.blab{display:flex;justify-content:space-between;font-size:13px;font-weight:800;align-items:baseline}.det{font-size:10px;color:var(--teal);min-height:14px;margin-top:3px}
+
+  .i{width:1.15em;height:1.15em;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;vertical-align:-.2em;flex:none}.i.f{fill:currentColor}
+  .mood-emoji .i{width:24px;height:24px;color:var(--lime)}.heart{color:#fff}.heart .i{width:72px;height:72px;filter:drop-shadow(0 6px 18px rgba(0,0,0,.35))}.big .i{width:52px;height:52px;color:var(--lime)}.pe .i,.pimg .i{width:46px;height:46px}
+  #splash{position:absolute;inset:0;z-index:70;display:grid;place-content:center;justify-items:center;gap:12px;background:var(--bg);animation:spl .6s 1.6s forwards}@keyframes spl{to{opacity:0;visibility:hidden}}
+  #splash .lg{width:74px;height:74px;border-radius:24px;background:linear-gradient(135deg,var(--g1,#ff7a8a),var(--g2,#ffa26b) 55%,#8b5cf6);display:grid;place-items:center;color:#2a0f0a;animation:lg 1.2s ease both}#splash .lg svg{width:36px;height:36px}@keyframes lg{0%{transform:scale(.4) rotate(-20deg);opacity:0}60%{transform:scale(1.1)}100%{transform:none;opacity:1}}
+  #splash b{font-size:26px;letter-spacing:-.05em;animation:rise .6s .4s both}#splash p{font-size:11px;animation:rise .6s .6s both}
+
+  #epAv .av,#pfAv .av{width:46px;height:46px;font-size:16px;margin:0}#epAv .av{width:68px;height:68px;font-size:24px}
+  .pimg.media{padding:0;min-height:0;display:block;background:#000}.pimg.media:before{display:none}.pimg.media img,.pimg.media video{display:block;width:100%;max-height:360px;object-fit:cover}
+  .pimg.media .cap{position:absolute;left:0;right:0;bottom:0;margin:0;padding:28px 14px 12px;background:linear-gradient(transparent,rgba(0,0,0,.65));font-size:13px;text-align:left}
+  .mprev{position:relative;margin:8px 0;border-radius:14px;overflow:hidden;max-height:150px}.mprev img,.mprev video{width:100%;max-height:150px;object-fit:cover;display:block}
+  .sv>*{position:relative;z-index:1}.sv>.smed{position:absolute;inset:0;z-index:0;width:100%;height:100%;object-fit:cover}
+  .rm *{animation:none!important;transition:none!important}.rm #splash{display:none}
+  .danger{color:#ff6b7a!important}label.primary-btn input,label.chip input{display:none}
+</style>
+</head>
+<body>
+<div class="stage">
+  <aside class="intro" aria-label="Product introduction">
+    <div class="brand"><span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M3 12h4l2.4-6 4.2 12 2.4-6H21"/></svg></span> DOWN</div>
+    <div class="eyebrow">YOUR PEOPLE · YOUR PLANS</div>
+    <h1>Who's down?<br><span>Make it happen.</span></h1>
+    <p class="intro-copy">Share an idea, see who's in, and make plans with your circle.</p>
+    <div class="value-pills"><div class="value-pill"><b>01</b> Share an idea</div><div class="value-pill"><b>02</b> Find your people</div><div class="value-pill"><b>03</b> Make a plan</div></div>
+    <div class="intro-foot">SOCIAL APP CONCEPT · HW 1<br>Sample accounts and places.</div>
+  </aside>
+
+  <main class="phone-wrap">
+    <div class="phone-glow"></div>
+    <section class="phone" aria-label="Down interactive mobile prototype"><div class="aurora"></div><div id="splash"><div class="lg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l2.4-6 4.2 12 2.4-6H21"/></svg></div><b>down.</b><p>Less planning. More living.</p></div>
+      <div class="status"><span>9:41</span><span class="status-icons" aria-hidden="true"><span></span><span></span><span></span><span class="battery"></span></span></div>
+      <header class="app-header">
+        <div class="app-brand"><span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M3 12h4l2.4-6 4.2 12 2.4-6H21"/></svg></span> down<span style="color:var(--lime)">.</span></div>
+        <button class="group-selector" id="groupSelector" aria-label="Switch friend group"><span class="group-dot"></span> Sunday people <span aria-hidden="true">⌄</span></button>
+      </header>
+
+      <div class="toast" id="toast" role="status"><span>✳</span><div id="toastText">Check-in saved!</div></div>
+
+      <!-- TODAY / HOME -->
+      <section class="screen active" id="screen-home" aria-label="Today">
+        <div class="hd"><b>Your circle</b><span class="grow"></span><button class="ib" id="addFr" aria-label="Add friends"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0M19 8v6M16 11h6"/></svg></button><button class="ib" id="actBtn" aria-label="Activity">♡<u id="actN">3</u></button><button class="ib" id="dmBtn" aria-label="Messages">✉<u id="dmN">2</u></button></div>
+        <div class="stories" id="stories"></div>
+        <button class="composer" id="homeComp"><span id="hcAv"></span><span class="grow">What's your idea tonight?</span><span class="pill">💡 Share</span></button>
+        <div class="greeting"><span class="live-dot"></span> <span id="localDateTime">LOCAL DATE · LOCAL TIME</span> <span style="opacity:.45">·</span> YOUR CIRCLE</div>
+        <h2>Good plans start<br>with <em>your people.</em></h2>
+        <p class="subcopy">Share a vibe. See who's free.</p>
+        <div class="hero-card">
+          <div class="hero-content">
+            <div class="mini-label">WITH YOUR CIRCLE</div>
+            <h3>Who's up for tonight?</h3>
+            <p>Post an idea and see who's in.</p>
+            <button class="primary-btn" id="startPulseBtn">I'm down <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg></button>
+          </div>
+        </div>
+        <div class="section-heading"><h3>Your circle's activity</h3><button class="text-btn" id="showPulseBtn">See who's in ↗</button></div>
+        <div class="momentum">
+          <div class="moment-top"><div><div class="moment-label" id="momentTitle">Plans are taking shape</div><div class="moment-caption" id="momentCaption">2 friends are interested</div></div><div class="moment-number" id="momentNumber">2 / 3</div></div>
+          <div class="avatar-stack" id="homeAvatars"><span class="avatar anon">?</span><span class="avatar anon">?</span><span class="avatar anon">?</span><span class="stack-label">Identities stay hidden for now</span></div>
+          <div class="progress-track"><span id="homeProgress"></span></div>
+          <div class="micro-note">See who's interested before you lock in a plan.</div>
+        </div>
+        <div class="section-heading"><h3>Ideas for tonight</h3><button class="text-btn" data-nav="explore">Explore all</button></div>
+        <div class="suggestion-list">
+          <button class="suggestion" id="homePick1" data-idea="dessert"><span class="suggestion-art art-peach">🍰</span><span class="suggestion-info"><span class="suggestion-title">Dessert walk</span><span class="suggestion-meta">Easy · 45 min · €</span></span><span class="suggestion-score">TONIGHT</span></button>
+          <button class="suggestion" id="homePick2" data-idea="sunset"><span class="suggestion-art art-blue">🌆</span><span class="suggestion-info"><span class="suggestion-title">Sunset somewhere</span><span class="suggestion-meta">Outside · Open-ended</span></span><span class="suggestion-score">FLEXIBLE</span></button>
+        </div>
+      </section>
+
+      <!-- CREATE PULSE -->
+      <section class="screen" id="screen-pulse" aria-label="Create a Pulse">
+        <div class="screen-title-row"><button class="back-btn" data-nav="home" aria-label="Back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 12H5m7 7-7-7 7-7"/></svg></button><h2>Send a Pulse.</h2><span class="step-counter">01 / 01</span></div>
+        <p class="subcopy" style="margin-top:-5px">Let your circle know you're down.</p>
+        <div class="field-label">YOUR IDEA <span>in your own words</span></div>
+        <textarea class="in" id="pIdea" maxlength="140" placeholder="e.g. cheap pizza then a walk, birthday drinks, anything but staying in…"></textarea><div class="det" id="pDet"></div>
+        <div class="field-label">OR PICK A VIBE</div>
+        <div class="mood-grid" id="moodGrid">
+          <button class="mood-option selected" data-mood="Chill"><span class="mood-emoji">☁️</span><span class="mood-name">Low-key</span><span class="mood-hint">Easy, no big energy</span></button>
+          <button class="mood-option" data-mood="Food"><span class="mood-emoji">🍜</span><span class="mood-name">Food first</span><span class="mood-hint">Snack, dinner, dessert</span></button>
+          <button class="mood-option" data-mood="Move"><span class="mood-emoji">🚶</span><span class="mood-name">Get moving</span><span class="mood-hint">Walk, game, mini adventure</span></button>
+          <button class="mood-option" data-mood="Wildcard"><span class="mood-emoji">🎲</span><span class="mood-name">Wildcard</span><span class="mood-hint">Surprise me</span></button>
+        </div>
+        <div class="field-label">WHEN COULD YOU MAKE IT?</div>
+        <div class="chip-row" id="timeGrid"><button class="chip selected" data-time="Tonight">Tonight</button><button class="chip" data-time="Next 2 hours">Next 2 hours</button><button class="chip" data-time="This weekend">This weekend</button></div>
+        <input class="in" id="pTime" placeholder="Or type it: Friday after 9, Sunday brunch…" maxlength="40">
+        <div class="field-label">BUDGET PER PERSON</div><div class="blab"><span id="bLab">€15</span><span style="color:var(--muted);font-weight:500;font-size:10px">drag · max = no limit</span></div><input type="range" id="bRange" min="0" max="60" step="5" value="15" aria-label="Budget per person">
+        <div class="field-label">HOW MUCH EFFORT?</div>
+        <div class="chip-row" id="effortGrid"><button class="chip selected" data-effort="Low">Keep it easy</button><button class="chip" data-effort="Medium">A little plan</button><button class="chip" data-effort="High">Make a night of it</button></div>
+        <div class="privacy-box"><svg viewBox="0 0 24 24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3M12 14v3"/></svg><div><strong>Private by default</strong><p>Your name stays hidden until enough friends join. You can leave anytime.</p></div></div>
+        <button class="primary-btn" id="sendPulseBtn">Send Pulse · I'm down <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 4 4L19 6"/></svg></button>
+        <p class="full-note">Your circle can see there's interest, but not who sent the first Pulse.</p>
+      </section>
+
+      <!-- PULSE / WAITING -->
+      <section class="screen" id="screen-pulse-status" aria-label="Check-in status">
+        <div class="screen-title-row"><button class="back-btn" data-nav="home" aria-label="Back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 12H5m7 7-7-7 7-7"/></svg></button><h2>Your Pulse</h2><span class="status-pill"><span class="tiny-dot"></span> LIVE</span></div>
+        <div class="pulse-orbit"><div class="pulse-core"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M2.5 12h4l2.2-6 4.1 12 2.5-6h6.2"/></svg></div></div>
+        <div class="center"><span class="status-pill"><span class="tiny-dot"></span> You're in</span><h2>Let's see<br><em style="color:var(--lime)">who's coming.</em></h2><p class="subcopy" id="pulseSummary">Low-key · Tonight · € easy</p></div>
+        <div class="signal-card">
+          <div class="signal-line"><span class="label">Friends interested</span><span class="value" id="alignmentLabel">2 of 3</span></div><div class="muted-bar"><span id="alignmentBar" style="width:66%"></span></div>
+          <div class="signal-line" style="margin-top:15px"><span class="label">Your name</span><span class="value">Hidden 🔒</span></div>
+          <div class="signal-line"><span class="label">When</span><span class="value" id="windowLabel">Tonight</span></div>
+        </div>
+        <div class="privacy-box"><svg viewBox="0 0 24 24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3M12 14v3"/></svg><div><strong>Your name stays private</strong><p>It's shown to the group when enough friends join.</p></div></div>
+        <button class="primary-btn" id="simulateMatchBtn">Preview who's in ↗</button>
+        <p class="disclaimer">Preview with sample circle activity.</p>
+        <button class="secondary-btn" id="cancelPulseBtn" style="margin-top:10px">Cancel my Pulse</button>
+      </section>
+
+      <!-- MATCH -->
+      <section class="screen" id="screen-match" aria-label="Friends and plan ideas">
+        <div class="screen-title-row"><button class="back-btn" data-nav="home" aria-label="Back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 12H5m7 7-7-7 7-7"/></svg></button><h2>Your friends are in.</h2><span class="status-pill"><span class="tiny-dot"></span> INTERESTED</span></div>
+        <div class="match-hero"><div class="mini-label">YOUR CIRCLE</div><h3>Your friends are<br><em style="color:var(--lime)">in for tonight.</em></h3><p>4 friends are interested. Pick an idea and see who wants to join.</p></div>
+        <div class="match-stats"><div class="stat"><div class="stat-number">4/6</div><div class="stat-label">Friends interested</div></div><div class="stat"><div class="stat-number" id="matchPlanTime">20:30</div><div class="stat-label">Suggested start</div></div><div class="stat"><div class="stat-number">€8–15</div><div class="stat-label">Per person</div></div></div>
+        <div class="section-heading" style="margin-top:18px"><h3>What should we do?</h3></div>
+        <div class="field-label" style="margin-top:15px">PICK AN IDEA</div>
+        <div id="ideasList">
+          <button class="idea-option selected" data-plan="dessert"><span class="idea-icon">🍰</span><span class="idea-text"><b>Dessert walk</b><small>20:30 · Sweet stop + no-pressure walk</small></span><span class="radio-dot"></span></button>
+          <button class="idea-option" data-plan="game"><span class="idea-icon">🎲</span><span class="idea-text"><b>Board-game café</b><small>20:00 · Sit down, stay as long as you like</small></span><span class="radio-dot"></span></button>
+          <button class="idea-option" data-plan="sunset"><span class="idea-icon">🌆</span><span class="idea-text"><b>Sunset, somewhere</b><small>19:15 · Outside · Bring a drink</small></span><span class="radio-dot"></span></button>
+        </div>
+        <div class="soft-row"><div class="avatar-stack"><span class="avatar anon">?</span><span class="avatar anon">?</span><span class="avatar anon">?</span></div><div class="soft-copy"><b id="softCount">2 friends are in.</b><br>Join in to reveal the group.</div></div>
+        <button class="primary-btn" id="softYesBtn">I'm in <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="m5 12 4 4L19 6"/></svg></button>
+      </section>
+
+      <!-- LOCKED / REVEALED -->
+      <section class="screen" id="screen-revealed" aria-label="Group plan">
+        <div class="screen-title-row"><button class="back-btn" data-nav="match" aria-label="Back to plan ideas"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 12H5m7 7-7-7 7-7"/></svg></button><h2>Okay, it's on.</h2><span class="status-pill"><span class="tiny-dot"></span> READY</span></div>
+        <div class="center" style="padding-top:7px"><div style="font-size:38px;margin-bottom:10px">✳</div><span class="status-pill"><span class="tiny-dot"></span> YOUR GROUP IS IN</span><h2 style="font-size:30px">The plan is<br><em style="color:var(--lime)">on.</em></h2><p class="subcopy">Three friends joined. Time to make it happen.</p></div>
+        <div class="plan-card">
+          <div class="plan-art"><span class="plan-art-tag" id="finalArtTag">A softer kind of night</span></div>
+          <div class="plan-topline"><div class="plan-title" id="finalPlanTitle">Dessert walk</div><span class="mini-badge">GROUP PICK</span></div>
+          <div class="plan-sub" id="finalPlanSub">Sweet stop · No reservation · Drop in or out</div>
+          <div class="plan-details"><div class="plan-detail"><span>◷</span><b id="finalTime">20:30</b></div><div class="plan-detail"><span>€</span><b id="finalSpend">€8–15</b></div><div class="plan-detail"><span>↗</span><b>Flexible</b></div></div>
+        </div>
+        <div class="section-heading"><h3>Who's coming</h3><span class="mini-badge">3 IN</span></div>
+        <div class="reveal-list"><div class="person-row"><span class="person-face a1">J</span><div><div class="person-name">Jamie</div><div class="person-status">Can stay 45 min</div></div><span class="person-tag">In</span></div><div class="person-row"><span class="person-face a3">A</span><div><div class="person-name">Alex</div><div class="person-status">Free after 20:00</div></div><span class="person-tag">In</span></div><div class="person-row"><span class="person-face a2">S</span><div><div class="person-name">Sam</div><div class="person-status">Joining for the first stop</div></div><span class="person-tag">In</span></div></div>
+        <div class="privacy-box"><svg viewBox="0 0 24 24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11.5a8 8 0 0 1-8.3 8 8.9 8.9 0 0 1-3.3-.7L4 20l1.2-3.4A7.7 7.7 0 0 1 4 12c0-4.4 3.6-8 8-8s8 3.1 8 7.5Z"/><path d="m9 12 2 2 4-4"/></svg><div><strong>Plans stay flexible</strong><p>Join late, leave early, or update your plans anytime.</p></div></div>
+        <button class="primary-btn" id="confirmPlanBtn">Save this plan <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="m5 12 4 4L19 6"/></svg></button>
+        <button class="secondary-btn" id="changePlanBtn" style="margin-top:9px">Try a different idea</button>
+      </section>
+
+      <!-- EXPLORE -->
+      <section class="screen" id="screen-explore" aria-label="Explore recommended activities">
+        <div class="greeting"><span class="live-dot"></span> DISCOVERY THAT GETS YOUR GROUP</div>
+        <h2>Find your next<br><em>plan.</em></h2>
+        <p class="subcopy">Places and ideas to share with your circle.</p>
+        <div class="field-label">NEAR YOU <span>OpenStreetMap</span></div>
+        <div class="toggle-row"><div><b>Find real nearby places</b><small>Your browser asks before sharing your location.</small></div><button class="toggle" id="locToggle" aria-pressed="false" aria-label="Find real nearby places"></button></div>
+        <p class="micro-note" id="localContext">Using your local time to show what's coming up.</p>
+        <p class="micro-note" id="locationStatus">Location is off. When enabled, coordinates are sent to OpenStreetMap's public search service and are not saved by Down.</p>
+        <div class="chip-row" id="catChips"><button class="chip selected" data-cat="all">All</button><button class="chip" data-cat="cafe">☕ Café</button><button class="chip" data-cat="food">🍜 Food</button><button class="chip" data-cat="act">🎳 Activity</button><button class="chip" data-cat="out">🌳 Outdoors</button></div>
+        <div class="chip-row" id="radChips" style="margin-top:7px"><button class="chip" data-r="500">500 m</button><button class="chip selected" data-r="1500">1.5 km</button><button class="chip" data-r="3000">3 km</button></div>
+        <div class="map" id="map"></div><p class="micro-note">Place data © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer" style="color:var(--teal)">OpenStreetMap contributors</a>.</p><div id="nearList"></div>
+        <div class="field-label" style="margin-top:16px">IDEAS FOR YOUR CIRCLE <span id="timeFitLabel">For tonight</span></div>
+        <div class="suggestion-list">
+          <button class="suggestion" id="explorePick1" data-idea="dessert"><span class="suggestion-art art-peach">🍰</span><span class="suggestion-info"><span class="suggestion-title">Dessert walk</span><span class="suggestion-meta">45 min · € · Easy to join</span></span><span class="suggestion-score">TONIGHT</span></button>
+          <button class="suggestion" id="explorePick2" data-idea="game"><span class="suggestion-art art-purple">🎲</span><span class="suggestion-info"><span class="suggestion-title">Board-game café</span><span class="suggestion-meta">1–2 h · €€ · Indoors</span></span><span class="suggestion-score">INDOORS</span></button>
+          <button class="suggestion" id="explorePick3" data-idea="sunset"><span class="suggestion-art art-blue">🌆</span><span class="suggestion-info"><span class="suggestion-title">Sunset, somewhere</span><span class="suggestion-meta">45 min · € · Open-ended</span></span><span class="suggestion-score">OUTSIDE</span></button>
+          <button class="suggestion" id="explorePick4" data-idea="walk"><span class="suggestion-art art-yellow">🎧</span><span class="suggestion-info"><span class="suggestion-title">Walk + shared playlist</span><span class="suggestion-meta">30 min · Free · No booking</span></span><span class="suggestion-score">FREE</span></button>
+        </div>
+        <div class="section-heading"><h3>Good to know</h3></div>
+        <div class="momentum"><div class="moment-label">Make it your plan</div><div class="micro-note" style="margin-top:7px">Pick a place, invite your circle, and decide the details together.</div></div>
+      </section>
+
+      <!-- PLANS -->
+      <section class="screen" id="screen-plans" aria-label="Plans">
+        <div class="greeting"><span class="live-dot"></span> THE GOOD STUFF, NOT THE CHAT LOG</div>
+        <h2>Plans that<br><em>actually happened.</em></h2>
+        <p class="subcopy">Keep the rituals that work. Make the next one even easier.</p>
+        <div class="section-heading"><h3>Coming up</h3><span class="mini-badge" id="planCountBadge">1 IDEA</span></div>
+        <div class="plan-card" id="upcomingPlanCard"><div class="plan-art"><span class="plan-art-tag">A softer kind of night</span></div><div class="plan-topline"><div class="plan-title" id="upcomingPlanTitle">Dessert walk</div><span class="mini-badge">SAVED</span></div><div class="plan-sub" id="upcomingPlanSub">Today · 20:30 · Sunday people</div><div class="plan-details"><div class="plan-detail"><span>€</span><b>€8–15</b></div><div class="plan-detail"><span>↗</span><b>Drop in / out</b></div></div><button class="secondary-btn" id="viewSavedPlanBtn" style="margin-top:13px">View plan details</button></div>
+        <div class="momentum"><div class="moment-top"><div><div class="moment-label">How was it?</div><div class="moment-caption">Share a photo or a quick update with your circle.</div></div></div><div class="chip-row" style="margin-top:11px"><button class="chip" id="fbPost">Share an update</button></div></div>
+      </section>
+
+      <!-- PROFILE / SETTINGS -->
+      <section class="screen" id="screen-you" aria-label="Your preferences">
+        <div class="greeting"><span class="live-dot"></span> YOUR SIDE OF THE VIBE</div>
+        <h2>Make it feel<br><em>like you.</em></h2>
+        <p class="subcopy">Control what you share and what a good plan looks like.</p>
+        <div class="momentum" style="display:flex;gap:12px;align-items:center"><span id="pfAv"></span><div><div class="moment-label" id="pfName">You</div><div class="moment-caption" id="pfUser">@you</div></div><button class="chip" id="editProf" style="margin-left:auto">Edit profile</button></div>
+        <p class="subcopy" id="pfBio" style="margin:-2px 0 8px"></p>
+        <div class="row2" style="border:0;justify-content:space-around;text-align:center"><div><b id="stF">3</b><small>Friends</small></div><div><b id="stG">1</b><small>Circles</small></div><div><b id="stP">0</b><small>Posts</small></div></div>
+        <div class="chip-row"><button class="chip" data-nav="friends">👥 Friends</button><button class="chip" data-nav="groups">🫂 Circles</button><button class="chip" data-nav="feed">📝 Posts</button><button class="chip" data-nav="settings"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg> Settings</button></div>
+        <div class="section-heading"><h3>Your preferences</h3></div>
+        <div class="toggle-row"><div><b>Hide names until friends join</b><small>Keep check-ins private at first</small></div><button class="toggle on" aria-label="Hide names until friends join" aria-pressed="true"></button></div>
+        <div class="toggle-row"><div><b>Prefer flexible plans</b><small>Easy to join late or leave early</small></div><button class="toggle on" aria-label="Toggle flexible plans" aria-pressed="true"></button></div>
+        <div class="toggle-row"><div><b>Show budget-friendly ideas</b><small>Keep plans within your budget</small></div><button class="toggle on" aria-label="Show budget-friendly ideas" aria-pressed="true"></button></div>
+        <button class="secondary-btn" id="resetDemoBtn" style="margin-top:16px">Reset app</button>
+        <p class="disclaimer">Sample accounts and activity are for preview only. Nothing is stored on a server.</p>
+      </section>
+
+      
+      <section class="screen" id="screen-friends" aria-label="Friends">
+        <div class="screen-title-row"><button class="back-btn" data-nav="you" aria-label="Back">←</button><h2>Friends</h2></div>
+        <p class="subcopy">Add people you actually plan with. They only ever see anonymous signals.</p>
+        <div class="chip-row" id="ftype"><button class="chip selected" data-t="u">@ Username</button><button class="chip" data-t="e">✉ Email</button><button class="chip" data-t="p">📞 Phone</button></div>
+        <input class="in" id="fin" placeholder="@username" autocomplete="off">
+        <button class="primary-btn" id="faddBtn">Find friend</button><div id="fres"></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:9px"><button class="secondary-btn" id="fcontacts">Find from contacts</button><button class="secondary-btn" id="flink">Share invite link</button></div>
+        <div id="fsug"></div>
+        <div class="section-heading"><h3>Your friends</h3><span class="mini-badge" id="fcount"></span></div><div id="flist"></div>
+      </section>
+      <section class="screen" id="screen-groups" aria-label="Circles">
+        <div class="screen-title-row"><button class="back-btn" data-nav="you" aria-label="Back">←</button><h2>Circles</h2></div>
+        <p class="subcopy">Premade groups for the people you plan with. Signals never leave your circle.</p>
+        <div class="toggle-row"><div><b>Circle-only mode</b><small>No strangers, no public discovery</small></div><button class="toggle on" aria-pressed="true" aria-label="Circle-only mode"></button></div>
+        <div class="toggle-row"><div><b>Hide names until friends join</b><small>Keep check-ins private at first</small></div><button class="toggle on" aria-pressed="true" aria-label="Hide names until friends join"></button></div>
+        <div class="section-heading"><h3>Your circles</h3></div><div id="glist"></div>
+        <div class="section-heading"><h3>Create a circle</h3></div>
+        <div class="chip-row" id="gtpl"><button class="chip">Flatmates</button><button class="chip">Uni crew</button><button class="chip">Work friends</button><button class="chip">Gym buddies</button><button class="chip">Family</button></div>
+        <input class="in" id="gname" placeholder="Circle name" maxlength="24">
+        <div class="chip-row" id="gpick"></div>
+        <button class="primary-btn" id="gcreate" style="margin-top:12px">Create circle</button>
+      </section>
+      <section class="screen" id="screen-feed" aria-label="Posts">
+        <div class="screen-title-row"><button class="back-btn" data-nav="you" aria-label="Back">←</button><h2>Posts</h2></div>
+        <div class="chip-row" id="ptabs"><button class="chip selected" data-p="me">My posts</button><button class="chip" data-p="circle">Circle feed</button><button class="chip" data-p="ideas">💡 Ideas</button></div>
+        <div id="pcomp"><input class="in" id="ptxt" maxlength="140" placeholder="What did you do? Your circle will see it">
+          <div id="pmed"></div><div class="chip-row"><label class="chip" style="cursor:pointer"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="9" cy="10" r="1.6"/><path d="m4 18 5-5 4 4 3-3 4 4"/></svg> Photo or video<input type="file" accept="image/*,video/*" id="pfile"></label></div>
+          <div class="chip-row" id="pmood" data-keep><button class="chip selected">😌</button><button class="chip">😋</button><button class="chip">🏃</button><button class="chip">🌀</button><button class="chip">😍</button></div>
+          <div class="chip-row" id="paud" style="margin-top:7px"><button class="chip selected">🔒 Circle only</button><button class="chip">👥 Friends</button></div>
+          <button class="primary-btn" id="ppost" style="margin-top:10px">Post</button></div>
+        <div id="icomp" style="display:none"><div style="display:flex;gap:10px"><span id="icAv"></span><textarea class="in" id="itxt" maxlength="280" placeholder="Share an idea, plan, budget or thought. Your circle can reply or join in. Use #tags and @friends" style="margin:0"></textarea></div>
+          <div class="g3" style="margin-top:8px"><input class="in" id="ibud" placeholder="Budget" maxlength="14"><input class="in" id="itime" placeholder="When?" maxlength="20"><input class="in" id="iplace" placeholder="Where?" maxlength="20"></div>
+          <div style="display:flex;align-items:center;gap:8px;margin-top:6px"><span class="pill" id="icount">0/280</span><span style="flex:1"></span><button class="primary-btn" id="ipost" style="width:auto;padding:10px 20px">Post idea</button></div></div>
+        <div id="plist"></div>
+      </section>
+      
+      <section class="screen" id="screen-settings" aria-label="Settings">
+        <div class="screen-title-row"><button class="back-btn" data-nav="you" aria-label="Back">←</button><h2>Settings</h2></div>
+        <div class="row2" id="stAcc" style="cursor:pointer"><span id="stAv"></span><div class="grow"><b id="stName">You</b><small id="stUser">@you</small></div><span class="pill">Edit</span></div>
+        <div class="section-heading"><h3>Privacy</h3></div>
+        <div class="toggle-row"><div><b>Use location for nearby search</b><small>Browser permission required; coordinates go to OpenStreetMap and aren't stored by Down.</small></div><button class="toggle" id="setLoc" aria-pressed="false" aria-label="Use location for nearby search"></button></div>
+        <div class="toggle-row"><div><b>Find me by phone or email</b><small>Friends can look you up</small></div><button class="toggle on"  aria-pressed="true" aria-label="Find me by phone or email"></button></div>
+        <div class="toggle-row"><div><b>Read receipts</b><small>Show when you have seen a message</small></div><button class="toggle on"  aria-pressed="true" aria-label="Read receipts"></button></div>
+        <div class="field-label">WHO SEES MY POSTS</div><div class="chip-row" id="setAud"><button class="chip selected">Circle only</button><button class="chip">All friends</button></div>
+        <div class="section-heading"><h3>Notifications</h3></div>
+        <div class="toggle-row"><div><b>Matches</b><small>When enough friends are down</small></div><button class="toggle on"  aria-pressed="true" aria-label="Matches"></button></div><div class="toggle-row"><div><b>Replies and reactions</b><small>On your posts and ideas</small></div><button class="toggle on"  aria-pressed="true" aria-label="Replies and reactions"></button></div><div class="toggle-row"><div><b>Friend requests</b><small>New invites and suggestions</small></div><button class="toggle on"  aria-pressed="true" aria-label="Friend requests"></button></div><div class="toggle-row"><div><b>Quiet hours</b><small>No alerts 23:00 to 08:00</small></div><button class="toggle on"  aria-pressed="true" aria-label="Quiet hours"></button></div>
+        <div class="section-heading"><h3>Appearance</h3></div>
+        <div class="chip-row" id="acc"><button class="chip selected" data-a="0">Sunset</button><button class="chip" data-a="1">Ocean</button><button class="chip" data-a="2">Mint</button><button class="chip" data-a="3">Violet</button></div>
+        <div class="toggle-row"><div><b>Reduce motion</b><small>Turn off animations</small></div><button class="toggle" id="rmT" aria-pressed="false" aria-label="Reduce motion"></button></div>
+        <div class="section-heading"><h3>Account</h3></div>
+        <button class="secondary-btn" id="dlData">Download my data</button>
+        <button class="secondary-btn" id="logout" style="margin-top:8px">Log out</button>
+        <button class="secondary-btn danger" id="delAcc" style="margin-top:8px">Delete account</button>
+        <p class="disclaimer">Down 1.0 prototype. Nothing is stored on a server.</p>
+      </section>
+<div class="sv" id="sv"></div><div class="modal-backdrop" id="sxBd"><div class="modal" id="sxM"></div></div>
+      <nav class="bottom-nav" aria-label="Main navigation">
+        <button class="nav-item active" data-nav="home"><svg viewBox="0 0 24 24"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"/></svg><span>Today</span></button>
+        <button class="nav-item" data-nav="pulse"><svg viewBox="0 0 24 24"><path d="M3 12h4l2.4-6 4.2 12 2.4-6H21"/></svg><span>Pulse</span></button>
+        <button class="nav-item" data-nav="explore"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m16 16 5 5M11 7v8M7 11h8"/></svg><span>Explore</span></button>
+        <button class="nav-item" data-nav="plans"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18m-13 4 2 2 4-4"/></svg><span>Plans</span></button>
+        <button class="nav-item" data-nav="you"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg><span>You</span></button>
+      </nav>
+      <div class="modal-backdrop" id="modalBackdrop" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+        <div class="modal"><div class="modal-grab"></div><h3 id="modalTitle">Switch your circle</h3><p id="modalCopy">Choose who you want to make plans with.</p><div class="chip-row" id="groupChoices"><button class="chip selected">Sunday people</button><button class="chip">Uni crew</button><button class="chip">The usuals</button></div><div class="modal-actions"><button class="primary-btn" id="modalDoneBtn">Use this circle</button><button class="secondary-btn" id="modalCancelBtn">Cancel</button></div></div>
+      </div>
+    </section>
+  </main>
+
+  <aside class="side-notes" aria-label="About Down">
+    <div class="side-kicker">MADE FOR YOUR CIRCLE</div>
+    <h3>Your group chat, with actual plans.</h3>
+    <p>Bring your friends together, share ideas, and see who's coming.</p>
+    <div class="feature-row"><div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M3 12h4l2-6 4 12 2-6h6"/></svg></div><div><strong>Share an idea</strong><p>Post what you're in the mood for.</p></div></div>
+    <div class="feature-row"><div class="feature-icon"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0M16 5h5m-2.5-2.5v5"/></svg></div><div><strong>Find your people</strong><p>See who's free and invite your circle.</p></div></div>
+    <div class="feature-row"><div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M4 12a8 8 0 1 0 2.3-5.6L4 8.5"/><path d="M4 4v4.5h4.5"/><path d="M12 8v4l3 2"/></svg></div><div><strong>Make it happen</strong><p>Pick a time and meet up.</p></div></div>
+    <div class="demo-label"><b>Preview</b><br>Sample friends, posts, and places.</div>
+  </aside>
+</div>
+<script>
+(() => {
+  const $ = (s, root=document) => root.querySelector(s);
+  const $$ = (s, root=document) => [...root.querySelectorAll(s)];
+  const screens = ['home','pulse','pulse-status','match','revealed','explore','plans','you','friends','groups','feed','settings'];
+  const state = { screen:'home', mood:'Chill', time:'Tonight', budget:'Low', effort:'Low', sent:false, matched:false, softYes:false, saved:false, plan:'dessert', group:'Sunday people', revealCount:2 };
+  const planInfo = {
+    dessert: { title:'Dessert walk', short:'Sweet stop · No reservation · Drop in or out', time:'20:30', spend:'€8–15', tag:'A softer kind of night', icon:'🍰' },
+    game: { title:'Board-game café', short:'Sit down · Play a round · Stay as long as you like', time:'20:00', spend:'€12–18', tag:'A little friendly competition', icon:'🎲' },
+    sunset: { title:'Sunset, somewhere', short:'Outside · Bring a drink · Keep it open-ended', time:'19:15', spend:'€0–6', tag:'Go where the evening goes', icon:'🌆' },
+    walk: { title:'Walk + shared playlist', short:'Fresh air · One loop · No booking needed', time:'19:45', spend:'Free', tag:'A tiny reset together', icon:'🎧' }
+  };
+  function go(name) {
+    if (!screens.includes(name)) return;
+    state.screen = name;
+    screens.forEach(s => { const el = $('#screen-'+s); if (el) el.classList.toggle('active', s===name); });
+    $$('.nav-item').forEach(b=>b.classList.toggle('active', b.dataset.nav===name || (['friends','groups','feed','settings'].includes(name) && b.dataset.nav==='you') || (name==='pulse-status' && b.dataset.nav==='pulse') || (name==='match' && b.dataset.nav==='pulse') || (name==='revealed' && b.dataset.nav==='plans')));
+    if (name==='home') updateHome();
+    if (name==='pulse-status') updatePulseStatus();
+    if (name==='match') updateMatch();
+    if (name==='revealed') updateRevealed();
+    if (window.SX) window.SX(name);
+  }
+  function toast(message) {
+    $('#toastText').textContent = message;
+    $('#toast').classList.add('show');
+    clearTimeout(toast.timer);
+    toast.timer = setTimeout(()=>$('#toast').classList.remove('show'), 2400);
+  }
+  function updateHome() {
+    $('#momentTitle').textContent = state.matched ? 'Your friends are in' : (state.sent ? 'Your Pulse is live' : 'Plans are taking shape');
+    $('#momentCaption').textContent = state.matched ? '4 friends are interested' : (state.sent ? '2 more friends to reveal the group' : '2 friends are interested');
+    $('#momentNumber').textContent = state.matched ? '4 / 6' : (state.sent ? '3 / 3' : '2 / 3');
+    $('#homeProgress').style.width = state.matched ? '86%' : (state.sent ? '100%' : '66%');
+    $('#homeAvatars').innerHTML = state.matched ? '<span class="avatar anon">?</span><span class="avatar anon">?</span><span class="avatar anon">?</span><span class="stack-label">Your group is ready to make a plan</span>' : '<span class="avatar anon">?</span><span class="avatar anon">?</span><span class="avatar anon">?</span><span class="stack-label">Names show when 3 friends join</span>';
+    if (state.saved) { $('#upcomingPlanTitle').textContent = planInfo[state.plan].title; $('#upcomingPlanSub').textContent = 'Today · '+planInfo[state.plan].time+' · '+state.group; $('#planCountBadge').textContent='1 SAVED'; }
+  }
+  function updatePulseStatus() {
+    const budget = state.budgetEur>=60?'No set budget':state.budgetEur===0?'Free':`Budget: €${state.budgetEur}`;
+    $('#pulseSummary').textContent = `${state.mood} · ${state.time} · ${budget}`;
+    $('#windowLabel').textContent = state.time;
+    $('#alignmentLabel').textContent = state.sent ? '3 of 3' : '2 of 3';
+    $('#alignmentBar').style.width = state.sent ? '100%' : '66%';
+    $('#simulateMatchBtn').textContent = state.matched ? "See who's in ↗" : "Preview who's in ↗";
+  }
+  function updateMatch() {
+    const p = planInfo[state.plan];
+    $('#matchPlanTime').textContent=p.time;
+    $$('.idea-option').forEach(b=>b.classList.toggle('selected', b.dataset.plan===state.plan));
+    $('#softCount').textContent = state.softYes ? '3 friends are in.' : '2 friends are in.';
+    $('#softYesBtn').innerHTML = state.softYes ? 'You\'re in ✓' : 'I\'m in <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="m5 12 4 4L19 6"/></svg>';
+  }
+  function updateRevealed() {
+    const p = planInfo[state.plan];
+    $('#finalPlanTitle').textContent=p.title; $('#finalPlanSub').textContent=p.short; $('#finalTime').textContent=p.time; $('#finalSpend').textContent=p.spend; $('#finalArtTag').textContent=p.tag;
+  }
+  function sendPulse() {
+    state.sent = true; state.matched = false; state.softYes = false;
+    updateHome(); go('pulse-status'); toast("Pulse sent. Let's see who's coming.");
+  }
+  function makeMatch() {
+    state.sent = true; state.matched = true; state.revealCount = 4; updateHome(); go('match'); toast('Your friends are in.');
+  }
+  function pickPlan(plan) { if (!planInfo[plan]) return; state.plan=plan; updateMatch(); updateRevealed(); }
+  function commitSoftYes() {
+    state.softYes=true; updateMatch();
+    if (state.matched) { go('revealed'); toast('Everyone\'s in. Make it a plan.'); }
+  }
+  function savePlan() { state.saved=true; updateHome(); go('plans'); toast('Plan saved to your Down plans.'); }
+  function reset() { Object.assign(state,{screen:'home',mood:'Chill',time:'Tonight',budget:'Low',effort:'Low',sent:false,matched:false,softYes:false,saved:false,plan:'dessert',revealCount:2,group:'Sunday people'}); $$('.mood-option').forEach(b=>b.classList.toggle('selected',b.dataset.mood==='Chill')); $$('.chip[data-time]').forEach(b=>b.classList.toggle('selected',b.dataset.time==='Tonight')); $$('.budget-option').forEach(b=>b.classList.toggle('selected',b.dataset.budget==='Low')); $$('.chip[data-effort]').forEach(b=>b.classList.toggle('selected',b.dataset.effort==='Low'));$('#bRange').value=15;$('#bRange').dispatchEvent(new Event('input'));go('home');updateMatch();$('#groupSelector').innerHTML='<span class="group-dot"></span> Sunday people <span aria-hidden="true">⌄</span>';toast('App reset.'); }
+  // Navigation
+  $$('[data-nav]').forEach(b=>b.addEventListener('click',()=>go(b.dataset.nav)));
+  $('#startPulseBtn').addEventListener('click',()=>go('pulse'));
+  $('#showPulseBtn').addEventListener('click',()=>go(state.sent?'pulse-status':'pulse'));
+  $('#sendPulseBtn').addEventListener('click',sendPulse);
+  $('#simulateMatchBtn').addEventListener('click',()=>state.matched?go('match'):makeMatch());
+  $('#cancelPulseBtn').addEventListener('click',()=>{state.sent=false;state.matched=false;state.softYes=false;updateHome();go('home');toast("You're no longer on the list.");});
+  $('#softYesBtn').addEventListener('click',commitSoftYes);
+  $('#confirmPlanBtn').addEventListener('click',savePlan);
+  $('#changePlanBtn').addEventListener('click',()=>go('match'));
+  $('#viewSavedPlanBtn').addEventListener('click',()=>go('revealed'));
+  $('#resetDemoBtn').addEventListener('click',reset);
+  $$('.mood-option').forEach(b=>b.addEventListener('click',()=>{state.mood=b.dataset.mood;$$('.mood-option').forEach(x=>x.classList.toggle('selected',x===b));}));
+  $$('.chip[data-time]').forEach(b=>b.addEventListener('click',()=>{state.time=b.dataset.time;$$('.chip[data-time]').forEach(x=>x.classList.toggle('selected',x===b));}));
+  $$('.budget-option').forEach(b=>b.addEventListener('click',()=>{state.budget=b.dataset.budget;$$('.budget-option').forEach(x=>x.classList.toggle('selected',x===b));}));
+  $$('.chip[data-effort]').forEach(b=>b.addEventListener('click',()=>{state.effort=b.dataset.effort;$$('.chip[data-effort]').forEach(x=>x.classList.toggle('selected',x===b));}));
+  $$('.idea-option').forEach(b=>b.addEventListener('click',()=>pickPlan(b.dataset.plan)));
+  $$('[data-idea]').forEach(b=>b.addEventListener('click',()=>{pickPlan(b.dataset.idea); if (state.matched) go('match'); else { state.matched=true;state.sent=true;go('match'); } }));
+  // Profile toggle controls are deliberately local prototype interactions.
+  $$('.toggle').forEach(b=>b.addEventListener('click',()=>{b.classList.toggle('on');b.setAttribute('aria-pressed',b.classList.contains('on')?'true':'false');toast(b.classList.contains('on')?'Preference enabled.':'Preference paused.');}));
+  // Circle switcher modal
+  $('#groupSelector').addEventListener('click',()=>$('#modalBackdrop').classList.add('open'));
+  $('#modalCancelBtn').addEventListener('click',()=>$('#modalBackdrop').classList.remove('open'));
+  $('#modalBackdrop').addEventListener('click',e=>{if(e.target===$('#modalBackdrop'))$('#modalBackdrop').classList.remove('open')});
+  $$('#groupChoices .chip').forEach(b=>b.addEventListener('click',()=>{$$('#groupChoices .chip').forEach(x=>x.classList.toggle('selected',x===b));}));
+  $('#modalDoneBtn').addEventListener('click',()=>{state.group=$('#groupChoices .chip.selected')?.textContent||'Sunday people';$('#groupSelector').innerHTML='<span class="group-dot"></span> '+state.group+' <span aria-hidden="true">⌄</span>';$('#modalBackdrop').classList.remove('open');toast('Circle switched to '+state.group+'.');});
+  // Friendly keyboard handling for the sheet.
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')$('#modalBackdrop').classList.remove('open');});
+  updateHome();updateMatch();
+  window.__go=go;window.__toast=toast;window.__state=state;
+})();
+</script>
+
+<script>
+(()=>{const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)],T=m=>__toast(m),st=()=>__state;
+const PROF={name:'You',user:'@you',bio:'',phone:'',email:'',photo:''};
+const col=n=>['#ff8f7a','#a78bfa','#ffc08a','#c4b5fd','#8fd3ff'][[...n].reduce((a,c)=>a+c.charCodeAt(0),0)%5],av=n=>n==='You'&&PROF.photo?`<div class="av" style="background:url(${PROF.photo}) center/cover"></div>`:`<div class="av" style="background:${col(n)}">${(n==='You'?PROF.name:n)[0].toUpperCase()}</div>`;
+let F=[["Jamie","@jamie.k","on"],["Alex","@alexm","on"],["Sam","@sam_s","on"]],SUG=[["Eleni","@eleni.p","4 mutual friends"],["Nikos","@nikos","2 mutual friends"],["Dimi","@dimi_d","In your contacts"]],G=[{n:"Sunday people",m:["Jamie","Alex","Sam"]}],A=0,P=[],C=[["Jamie","Board-game café was a win. Lost every round",4],["Sam","Walk + playlist at sunset. Zero planning.",6]],tab="me",ft="u",sel=new Set(),cat="all",rad=1500;
+const sel1=(box,e)=>{$$('.chip',box).forEach(x=>x.classList.toggle('selected',x===e))};
+const stats=()=>{$('#stF').textContent=F.filter(f=>f[2]==="on").length;$('#stG').textContent=G.length;$('#stP').textContent=P.length};
+/* friends */
+const PH={u:"@username",e:"name@email.com",p:"+30 69X XXX XXXX"};
+function rF(){$('#fcount').textContent=F.length+' PEOPLE';$('#flist').innerHTML=F.map((f,i)=>`<div class="row2">${av(f[0])}<div class="grow"><b>${f[0]}</b><small>${f[1]}</small></div><span class="pill ${f[2]==="on"?"ok":""}">${f[2]==="on"?"FRIEND":"INVITED"}</span><button class="act" data-rm="${i}" aria-label="Remove">✕</button></div>`).join('')||'<p class="micro-note">No friends yet. Add someone above.</p>';
+ $('#fsug').innerHTML=SUG.length?`<div class="section-heading"><h3>People you may know</h3></div>`+SUG.map((s,i)=>`<div class="row2">${av(s[0])}<div class="grow"><b>${s[0]}</b><small>${s[2]}</small></div><button class="chip" data-sug="${i}">Add</button></div>`).join(''):'';stats()}
+function addF(n,h){if(F.some(f=>f[1]===h))return T('Already in your friends');F.push([esc(n),esc(h),"inv"]);rF();T('Invite sent to '+n);setTimeout(()=>{const f=F.find(x=>x[1]===h);if(f){f[2]="on";rF();T(n+' accepted your invite')}},2000)}
+$('#ftype').onclick=e=>{const b=e.target.closest('.chip');if(!b)return;ft=b.dataset.t;sel1($('#ftype'),b);$('#fin').placeholder=PH[ft]};
+$('#faddBtn').onclick=()=>{const v=$('#fin').value.trim();let ok,n;
+ if(ft==="u"){ok=/^@?[a-z0-9._]{3,20}$/i.test(v);n=v.replace('@','')}else if(ft==="e"){ok=/^[^@\s]+@[^@\s]+\.[a-z]{2,}$/i.test(v);n=v.split('@')[0]}else{ok=v.replace(/\D/g,'').length>=8;n='Contact '+v.replace(/\D/g,'').slice(-3)}
+ if(!ok)return T('Check the '+({u:"username",e:"email",p:"phone number"})[ft]);n=n.charAt(0).toUpperCase()+n.slice(1);addF(n,ft==="u"?'@'+v.replace('@',''):v);$('#fin').value=''};
+$('#fcontacts').onclick=()=>T('3 people from your contacts use Down');$('#flink').onclick=()=>T('Invite link copied');
+$('#fsug').onclick=e=>{const b=e.target.closest('[data-sug]');if(!b)return;const s=SUG.splice(+b.dataset.sug,1)[0];addF(s[0],s[1])};
+$('#flist').onclick=e=>{const b=e.target.closest('[data-rm]');if(!b)return;const f=F.splice(+b.dataset.rm,1)[0];G.forEach(g=>g.m=g.m.filter(x=>x!==f[0]));rF();T(f[0]+' removed')};
+/* circles */
+function setA(i){A=i;st().group=G[i].n;$('#groupSelector').innerHTML='<span class="group-dot"></span> '+G[i].n+' <span aria-hidden="true">⌄</span>';
+ $('#groupChoices').innerHTML=G.map((g,j)=>`<button class="chip ${j===i?"selected":""}">${g.n}</button>`).join('');$$('#groupChoices .chip').forEach(c=>c.onclick=()=>sel1($('#groupChoices'),c))}
+function rG(){$('#glist').innerHTML=G.map((g,i)=>`<div class="momentum"><div class="moment-top"><div><div class="moment-label">${g.n}</div><div class="moment-caption">${g.m.length+1} people incl. you · anonymous only</div></div>${i===A?'<span class="pill ok">ACTIVE</span>':`<button class="chip" data-use="${i}">Use</button>`}</div><div style="display:flex;gap:6px;margin-top:10px">${g.m.map(av).join('')}</div></div>`).join('');
+ $('#gpick').innerHTML=F.filter(f=>f[2]==="on").map(f=>`<button class="chip ${sel.has(f[0])?"selected":""}">${f[0]}</button>`).join('')||'<p class="micro-note">Add friends first.</p>';stats()}
+$('#glist').onclick=e=>{const b=e.target.closest('[data-use]');if(b){setA(+b.dataset.use);rG();T('Now planning with '+G[A].n)}};
+$('#gtpl').onclick=e=>{const b=e.target.closest('.chip');if(b)$('#gname').value=b.textContent};
+$('#gpick').onclick=e=>{const b=e.target.closest('.chip');if(!b)return;const n=b.textContent;sel.has(n)?sel.delete(n):sel.add(n);b.classList.toggle('selected')};
+$('#gcreate').onclick=()=>{const n=$('#gname').value.trim();if(!n)return T('Name your circle');if(!sel.size)return T('Pick at least one friend');G.push({n,m:[...sel]});sel.clear();$('#gname').value='';setA(G.length-1);rG();T('Circle created and set active')};
+/* posts */
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));const gr=t=>['linear-gradient(135deg,#8b5cf6,#ff8fb1)','linear-gradient(135deg,#00b4a0,#ff8f7a)','linear-gradient(135deg,#ff9966,#ff5e62)','linear-gradient(135deg,#4facfe,#2ee6d0)','linear-gradient(135deg,#9b87ff,#a78bfa)'][[...t].reduce((s,c)=>s+c.charCodeAt(0),0)%5];
+const CM={c0:[["Sam","Rematch next week"],["Alex","I'm in"]],c1:[["Jamie","Next time I'm bringing the playlist"]]};let cK='';
+const card=(k,a,t,mood,l,lk,aud,pl,med)=>`<div class="pc"><div class="meta">${av(a)}<div class="grow"><b>${a==='You'?esc(PROF.name):a}</b><small>${aud}</small></div><span class="pill">now</span></div>${med?`<div class="pimg media" data-k="${k}">${med.v?`<video src="${med.url}" controls playsinline preload="metadata"></video>`:`<img src="${med.url}" alt="">`}${t?`<p class="cap">${esc(t)}</p>`:''}</div>`:`<div class="pimg" data-k="${k}" style="background:${gr(t)}"><span class="pe" data-keep>${mood}</span><p>${esc(t)}</p>${pl?`<em>📎 ${pl}</em>`:''}</div>`}<div class="pact"><button data-lk="${k}" class="${lk?'on':''}">${lk?'❤️':'🤍'} ${l+(lk?1:0)}</button><button data-cm="${k}">💬 ${(CM[k]||[]).length}</button>${k[0]==='m'?`<button data-pd="${k.slice(1)}">🗑</button>`:''}</div></div>`;
+function rP(){const mine=tab==="me",idt=tab==="ideas";$('#pcomp').style.display=mine?'block':'none';$('#icomp').style.display=idt?'block':'none';$$('#ptabs .chip').forEach(c=>c.classList.toggle('selected',c.dataset.p===tab));
+ if(idt){rI();return}
+ const m=P.map((p,i)=>card('m'+i,'You',p.t,p.m,0,p.l,p.a,p.pl,p.med)).join(''),c=C.map((x,i)=>card('c'+i,x[0],x[1],['😋','😍'][i]||'😌',x[2],x[3],'Circle')).join('');
+ $('#plist').innerHTML=mine?(m||'<div class="empty"><div>📸</div><b>No posts yet</b><p>Share how your last plan went.</p></div>'):(m+c);stats()}
+function heart(e){if(!e)return;const x=document.createElement('span');x.className='heart';x.textContent='❤️';e.append(x);setTimeout(()=>x.remove(),900);navigator.vibrate&&navigator.vibrate(12)}
+function like(k,b){const i=+k.slice(1);let on;if(k[0]==='m'){P[i].l=!P[i].l;on=P[i].l}else{C[i][3]=!C[i][3];on=C[i][3]}rP();if(on&&b)heart($(`.pimg[data-k="${k}"]`))}
+$('#ptabs').onclick=e=>{const b=e.target.closest('.chip');if(b){tab=b.dataset.p;rP()}};
+$('#pmood').onclick=e=>{const b=e.target.closest('.chip');if(b)sel1($('#pmood'),b)};$('#paud').onclick=e=>{const b=e.target.closest('.chip');if(b)sel1($('#paud'),b)};
+$('#ppost').onclick=()=>{const t=$('#ptxt').value.trim();if(!t&&!MED)return T('Add a caption or a photo first');P.unshift({med:MED,t,m:$('#pmood .selected').textContent,a:$('#paud .selected').textContent.trim(),l:0,pl:$('#ptxt').dataset.pl||''});$('#ptxt').value='';$('#ptxt').dataset.pl='';MED=null;$('#pmed').innerHTML='';rP();T('Posted to your circle')};
+let lt={k:'',t:0};$('#plist').onclick=e=>{const b=e.target.closest('button'),im=e.target.closest('.pimg');
+ if(b){const d=b.dataset;if(d.lk)like(d.lk,1);else if(d.cm)cmSheet(d.cm);else if(d.ji!==undefined){const x=fi(d.ji);x.me=!x.me;rI()}else if(d.bo!==undefined){const x=fi(d.bo);x.bo=!x.bo;if(x.bo)T('Boosted to your circle');rI()}else if(d.mk!==undefined)mkPlan(fi(d.mk));else if(d.pd!==undefined){P.splice(+d.pd,1);T('Post deleted');rP()}return}
+ if(im){const k=im.dataset.k,n=Date.now();if(lt.k===k&&n-lt.t<350){const on=k[0]==='m'?P[+k.slice(1)].l:C[+k.slice(1)][3];on?heart(im):like(k,1)}lt={k,t:n}}};
+$('#fbPost').onclick=()=>{const t=$('#upcomingPlanTitle').textContent;__go('feed');tab='me';rP();$('#ptxt').value='Did "'+t+'" with '+st().group+'';$('#ptxt').dataset.pl=t};
+/* nearby */
+const REC=[{id:'dessert',title:'Dessert walk',icon:'🍰',base:84,hour:20,minute:30,duration:'45 min · € · Easy to join'},{id:'game',title:'Board-game café',icon:'🎲',base:81,hour:20,minute:0,duration:'1–2 h · €€ · Indoors'},{id:'sunset',title:'Sunset, somewhere',icon:'🌆',base:78,hour:19,minute:15,duration:'45 min · € · Open-ended'},{id:'walk',title:'Walk + shared playlist',icon:'🎧',base:76,hour:19,minute:45,duration:'30 min · Free · No booking'}];
+let userPosition=null,livePlaces=[],placesLoaded=false,placesLoading=false,geoPending=false,placesController=null,placeRequestId=0;
+function localNow(){return new Date()}
+function localTimeLabel(date){return new Intl.DateTimeFormat(undefined,{hour:'2-digit',minute:'2-digit'}).format(date)}
+function localDateLabel(date,options={weekday:'short',day:'numeric',month:'short'}){return new Intl.DateTimeFormat(undefined,options).format(date)}
+const PREF_TTL=60*60*24*180;
+function readPref(key){
+ const match=document.cookie.split('; ').find(item=>item.startsWith(encodeURIComponent(key)+'='));
+ if(match)return decodeURIComponent(match.slice(match.indexOf('=')+1));
+ try{return localStorage.getItem(key)}catch{return null}
+}
+function savePref(key,value){
+ try{
+  document.cookie=encodeURIComponent(key)+'='+encodeURIComponent(value)+'; max-age='+PREF_TTL+'; path=/; SameSite=Lax';
+  if(document.cookie.includes(encodeURIComponent(key)+'='))return;
+ }catch{}
+ try{localStorage.setItem(key,value)}catch{}
+}
+function nextSlot(plan,date=localNow()){const slot=new Date(date);slot.setHours(plan.hour,plan.minute,0,0);if(slot<=date)slot.setDate(slot.getDate()+1);return slot}
+function recScore(plan,date=localNow()){
+ const h=date.getHours(),day=date.getDay();let score=plan.base;
+ if(h>=5&&h<11)score+=plan.id==='walk'?8:plan.id==='game'?-7:plan.id==='sunset'?-6:1;
+ else if(h>=11&&h<16)score+=plan.id==='walk'?7:plan.id==='game'?2:plan.id==='dessert'?3:0;
+ else if(h>=16&&h<21)score+=plan.id==='dessert'?7:plan.id==='sunset'?6:plan.id==='game'?3:1;
+ else score+=plan.id==='game'?7:plan.id==='dessert'?3:plan.id==='walk'?1:-7;
+ if(day===0||day===5||day===6)score+=plan.id==='game'?3:plan.id==='walk'?2:0;
+ return Math.max(60,Math.min(96,score));
+}
+function placeTimeFit(place,date=localNow()){
+ const h=date.getHours(),category=place.category;let fit=0;
+ if(h>=5&&h<11)fit=category==='cafe'?9:category==='out'?3:category==='act'?-4:0;
+ else if(h>=11&&h<16)fit=category==='food'?8:category==='out'?6:category==='act'?3:2;
+ else if(h>=16&&h<21)fit=category==='act'?7:category==='out'?6:category==='food'?5:1;
+ else fit=category==='food'?8:category==='act'?6:category==='cafe'?-2:-5;
+ return fit;
+}
+function updateLocalContext(){
+ const now=localNow(),tz=Intl.DateTimeFormat().resolvedOptions().timeZone||'device local time zone';
+ $('#localDateTime').textContent=(localDateLabel(now,{weekday:'short',day:'numeric',month:'short'})+' · '+localTimeLabel(now)).toUpperCase();
+ $('#localContext').textContent='Local time: '+localTimeLabel(now)+' · '+tz;
+ const ranked=[...REC].sort((a,b)=>recScore(b,now)-recScore(a,now));
+ ['homePick1','homePick2','explorePick1','explorePick2','explorePick3','explorePick4'].forEach((id,index)=>{
+  const card=$('#'+id),plan=ranked[index%ranked.length],slot=nextSlot(plan,now);
+  card.dataset.idea=plan.id;
+  card.querySelector('.suggestion-art').textContent=plan.icon;
+  card.querySelector('.suggestion-title').textContent=plan.title;
+  card.querySelector('.suggestion-meta').textContent=(id.startsWith('home')?'Next: ':'Best next slot: ')+localDateLabel(slot)+' · '+localTimeLabel(slot)+' local · '+plan.duration;
+  card.querySelector('.suggestion-score').textContent=({dessert:'TONIGHT',game:'INDOORS',sunset:'OUTSIDE',walk:'FREE'})[plan.id];
+ });
+ $('#timeFitLabel').textContent='FOR TONIGHT';
+}
+function categoryFor(tags){
+ const amenity=tags.amenity||'',leisure=tags.leisure||'',tourism=tags.tourism||'';
+ if(amenity==='cafe'||amenity==='ice_cream')return'cafe';
+ if(['restaurant','fast_food','food_court','bar','pub'].includes(amenity))return'food';
+ if(['cinema','theatre','bowling_alley','arts_centre','community_centre','nightclub','sports_centre'].includes(amenity)||['sports_centre','fitness_centre'].includes(leisure))return'act';
+ if(['park','garden','nature_reserve'].includes(leisure)||['museum','attraction'].includes(tourism))return'out';
+ return'';
+}
+function distanceMeters(lat1,lon1,lat2,lon2){
+ const radian=n=>n*Math.PI/180,R=6371000,dLat=radian(lat2-lat1),dLon=radian(lon2-lon1);
+ const a=Math.sin(dLat/2)**2+Math.cos(radian(lat1))*Math.cos(radian(lat2))*Math.sin(dLon/2)**2;
+ return R*2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
+}
+function parsePlaces(elements){
+ const unique=new Map();
+ elements.forEach(el=>{
+  const tags=el.tags||{},category=categoryFor(tags),lat=el.lat??el.center?.lat,lon=el.lon??el.center?.lon;
+  if(!category||!Number.isFinite(lat)||!Number.isFinite(lon))return;
+  const id=el.type+'-'+el.id;
+  unique.set(id,{id,name:tags.name||tags['name:en']||({cafe:'Café',food:'Food place',act:'Activity',out:'Outdoor place'}[category]),category,icon:({cafe:'☕',food:'🍴',act:'🎳',out:'🌳'}[category]),lat,lon,hours:tags.opening_hours||'Hours not listed',distance:distanceMeters(userPosition.lat,userPosition.lon,lat,lon)});
+ });
+ return [...unique.values()];
+}
+function showMapPins(places){
+ const lat0=userPosition.lat,lon0=userPosition.lon,cos=Math.max(.15,Math.cos(lat0*Math.PI/180));
+ $('#map').innerHTML='<span class="pin me" style="left:50%;top:50%" aria-label="Your location"></span>'+places.map(place=>{
+  const dx=(place.lon-lon0)*111320*cos,dy=(place.lat-lat0)*111320;
+  const x=Math.max(5,Math.min(95,50+dx/rad*45)),y=Math.max(5,Math.min(95,50-dy/rad*45));
+  return `<span class="pin" style="left:${x}%;top:${y}%" title="${esc(place.name)}">${place.icon}</span>`;
+ }).join('');
+}
+function renderLivePlaces(){
+ const now=localNow(),moodCategory={Chill:'cafe',Food:'food',Move:'out',Wildcard:'act'}[st().mood];
+ const places=livePlaces.filter(place=>(cat==='all'||place.category===cat)&&place.distance<=rad).map(place=>{
+  const near=Math.max(0,Math.round(16*(1-place.distance/rad))),fit=Math.max(55,Math.min(97,66+near+(place.category===moodCategory?12:0)+placeTimeFit(place,now)));
+  return{...place,fit};
+ }).sort((a,b)=>b.fit-a.fit);
+ showMapPins(places);
+ $('#nearList').innerHTML=places.map(place=>`<div class="row2"><div class="av" style="background:${col(place.name)};font-size:17px">${place.icon}</div><div class="grow"><b>${esc(place.name)}</b><small>${place.distance<1000?Math.round(place.distance)+' m':(place.distance/1000).toFixed(1)+' km'} · ${esc(place.hours)}</small></div><div style="text-align:right"><span class="pill ok">NEARBY</span><br><button class="chip" style="margin-top:5px" data-place="${place.id}">Add to plan</button></div></div>`).join('')||'<p class="micro-note">No places in this category or radius. Try another filter.</p>';
+ $('#locationStatus').textContent=places.length+' places nearby · opening hours may be missing or out of date.';
+}
+async function loadNearbyPlaces(){
+ if(placesLoaded){renderLivePlaces();return}
+ if(placesLoading)return;
+ placesLoading=true;$('#locationStatus').textContent='Searching OpenStreetMap for places within 3 km…';$('#nearList').innerHTML='<p class="micro-note">Loading nearby places…</p>';
+ const {lat,lon}=userPosition,query=`[out:json][timeout:25];(nwr(around:3000,${lat},${lon})["amenity"~"^(cafe|restaurant|fast_food|food_court|ice_cream|bar|pub|cinema|theatre|bowling_alley|arts_centre|community_centre|nightclub|sports_centre)$"];nwr(around:3000,${lat},${lon})["leisure"~"^(park|garden|sports_centre|fitness_centre|nature_reserve)$"];nwr(around:3000,${lat},${lon})["tourism"~"^(museum|attraction)$"];);out center;`;
+ const requestId=++placeRequestId,controller=placesController=new AbortController(),timeout=setTimeout(()=>controller.abort(),30000);
+ try{
+  const response=await fetch('https://overpass-api.de/api/interpreter?data='+encodeURIComponent(query),{signal:controller.signal});
+  if(!response.ok)throw new Error('OpenStreetMap search returned '+response.status);
+  const data=await response.json();if(requestId!==placeRequestId)return;livePlaces=parsePlaces(data.elements||[]);placesLoaded=true;renderLivePlaces();
+ }catch(error){
+  if(requestId!==placeRequestId)return;
+  const detail=error.name==='AbortError'?'Search timed out.':'Could not reach OpenStreetMap. Check your connection and try again.';
+  $('#map').innerHTML='';$('#nearList').innerHTML='<p class="micro-note">'+detail+'</p><button class="secondary-btn" id="retryNearby">Try again</button>';
+  $('#locationStatus').textContent='Location was used only for this search and is not saved by Down.';
+ }finally{clearTimeout(timeout);if(requestId===placeRequestId){placesLoading=false;placesController=null}}
+}
+function requestUserLocation(){
+ if(geoPending||placesLoading)return;
+ if(!navigator.geolocation){$('#locationStatus').textContent='This browser does not support location. Open the app on localhost or HTTPS.';return}
+ geoPending=true;$('#locationStatus').textContent='Waiting for your browser location permission…';
+ navigator.geolocation.getCurrentPosition(position=>{
+  geoPending=false;if(!$('#locToggle').classList.contains('on'))return;userPosition={lat:position.coords.latitude,lon:position.coords.longitude};
+  $('#locationStatus').textContent='Location received for this session. Searching nearby places…';loadNearbyPlaces();
+ },error=>{
+  geoPending=false;if(!$('#locToggle').classList.contains('on'))return;const msg=error.code===1?'Location permission was denied. Allow it in your browser settings, then try again.':error.code===2?'Your location is unavailable right now. Try again in a moment.':'Location request timed out. Try again.';
+  $('#locationStatus').textContent=msg;$('#nearList').innerHTML='';$('#map').innerHTML='';
+ },{enableHighAccuracy:false,timeout:15000,maximumAge:60000});
+}
+function rNear(){
+ if(!$('#locToggle').classList.contains('on')){$('#map').innerHTML='';$('#nearList').innerHTML='';$('#locationStatus').textContent='Location is off. Enable it to search OpenStreetMap for nearby places.';return}
+ if(!userPosition){requestUserLocation();return}
+ if(!placesLoaded){loadNearbyPlaces();return}
+ renderLivePlaces();
+}
+$('#catChips').onclick=e=>{const b=e.target.closest('.chip');if(b){cat=b.dataset.cat;sel1($('#catChips'),b);rNear()}};$('#radChips').onclick=e=>{const b=e.target.closest('.chip');if(b){rad=+b.dataset.r;sel1($('#radChips'),b);rNear()}};
+const savedNearbyPref=readPref('soonish_location_optin');
+const locationOptIn=savedNearbyPref==='on';
+['locToggle','setLoc'].forEach(id=>{$('#'+id).classList.toggle('on',locationOptIn);$('#'+id).setAttribute('aria-pressed',String(locationOptIn))});
+function setNearbyEnabled(enabled){
+ savePref('soonish_location_optin',enabled?'on':'off');
+ if(enabled){requestUserLocation();return}
+ placeRequestId++;placesController?.abort();placesController=null;geoPending=false;userPosition=null;livePlaces=[];placesLoaded=false;placesLoading=false;rNear();
+}
+$('#locToggle').addEventListener('click',()=>{
+ const enabled=$('#locToggle').classList.contains('on');
+ $('#setLoc').classList.toggle('on',enabled);$('#setLoc').setAttribute('aria-pressed',String(enabled));setNearbyEnabled(enabled);
+});
+$('#setLoc').addEventListener('click',()=>{
+ const enabled=$('#setLoc').classList.contains('on');
+ $('#locToggle').classList.toggle('on',enabled);$('#locToggle').setAttribute('aria-pressed',String(enabled));setNearbyEnabled(enabled);
+});
+$('#nearList').onclick=e=>{
+ if(e.target.closest('#retryNearby')){placesLoaded=false;loadNearbyPlaces();return}
+ const b=e.target.closest('[data-place]');if(!b)return;
+ const place=livePlaces.find(item=>item.id===b.dataset.place);if(!place)return;
+ const mood={cafe:'Chill',food:'Food',act:'Wildcard',out:'Move'}[place.category],option=$('.mood-option[data-mood="'+mood+'"]');
+ if(option)option.click();$('#pIdea').value=place.name;$('#pIdea').dispatchEvent(new Event('input'));
+ __go('pulse');T('Pulse for '+place.name+' · anonymous to '+st().group);
+};
+$('#modalDoneBtn').addEventListener('click',()=>{const i=G.findIndex(g=>g.n===st().group);if(i>=0)A=i});
+let tm;window.SX=n=>{if(n==='explore'){rNear();updateLocalContext()}if(n==='friends')rF();if(n==='groups')rG();if(n==='feed')rP();if(n==='you')stats();
+ if(n==='pulse')$('#pIdea').setAttribute('aria-label','What would you like to do with '+st().group+'?');
+ clearTimeout(tm);if(n==='pulse-status'&&st().sent&&!st().matched)tm=setTimeout(()=>{if(st().screen==='pulse-status'&&!st().matched){T('3 of 3 friends are down');$('#simulateMatchBtn').click()}},3500)};
+
+/* social layer */
+const sx=$('#sxM'),bd=$('#sxBd'),now=()=>new Date().toTimeString().slice(0,5);let ms=false,cur='',pi=0,SSL=[],seen=new Set(),sv={u:0,s:0,t:null};
+function sheet(h,tall,ctr){sx.innerHTML=h;sx.classList.toggle('tall',!!tall);bd.classList.toggle('ctr',!!ctr);bd.classList.add('open')}
+const closeSh=()=>bd.classList.remove('open');bd.addEventListener('click',e=>{if(e.target===bd)closeSh()});
+function cmSheet(k){cK=k;sheet(`<div class="grab"></div><h3>Comments</h3><div class="cml">${(CM[k]||[]).map(c=>`<div class="row2">${av(c[0])}<div class="grow"><b>${c[0]}</b><small style="font-size:11px;color:var(--ink)">${esc(c[1])}</small></div></div>`).join('')||'<p class="micro-note">Be the first to comment.</p>'}</div><div class="cin"><input class="in" id="cin" placeholder="Add a comment…" autocomplete="off"><button class="chip" data-sx="cm">Post</button></div>`)}
+const TH={};function thr(){G.forEach((g,i)=>{TH[g.n]=TH[g.n]||(i?[[g.m[0]||'Jamie','Welcome to the circle','now']]:[["Jamie","Down says Food at 20:00 is a great fit","19:02"],["Sam","I'm in","19:03"]])});F.filter(f=>f[2]==='on').forEach(f=>{TH[f[0]]=TH[f[0]]||[[f[0],"Hey! Down for something soon?","18:40"]]})}
+const bub=m=>`<div class="bub ${m[0]==='You'?'me':''}">${m[0]!=='You'?`<small>${m[0]}</small>`:''}${esc(m[1])}<em>${m[2]}</em></div>`;
+function openInbox(){thr();$('#dmN').style.display='none';sheet(`<div class="grab"></div><h3>Messages</h3>`+Object.keys(TH).map(k=>{const l=TH[k][TH[k].length-1];return `<div class="row2" data-th="${k}" style="cursor:pointer">${av(k)}<div class="grow"><b>${k}</b><small>${l[0]==='You'?'You: ':''}${l[1]}</small></div><span class="pill">${l[2]}</span></div>`}).join(''))}
+function openChat(n){cur=n;thr();sheet(`<div class="chh"><button class="act" data-sx="inbox">‹</button>${av(n)}<b>${n}</b><span class="grow"></span><button class="act" data-sx="close">✕</button></div><div class="msgs" id="msgs">${TH[n].map(bub).join('')}</div><div class="chip-row" style="margin:6px 0">${['On my way','Running late 10 min','Where exactly?'].map(q=>`<button class="chip" data-q="${q}">${q}</button>`).join('')}</div><div class="cin"><input class="in" id="cmsg" placeholder="Message…" autocomplete="off"><button class="chip" data-sx="send">Send</button></div>`,1);$('#msgs').scrollTop=1e5}
+function say(t){t=(t||'').trim();if(!t||!cur||!$('#msgs'))return;const me=['You',t,now()];TH[cur].push(me);const m=$('#msgs');m.insertAdjacentHTML('beforeend',bub(me));$('#cmsg').value='';m.insertAdjacentHTML('beforeend','<div class="typing" id="typ"><i></i><i></i><i></i></div>');m.scrollTop=1e5;const c=cur;
+ setTimeout(()=>{const g=G.find(x=>x.n===c),who=g?g.m[Math.floor(Math.random()*g.m.length)]:c,L=t.toLowerCase(),r=L.includes('late')?'No stress, we will wait':L.includes('where')?"I'll drop a pin 📍":['Perfect','Yesss','Count me in','On it!'][Math.floor(Math.random()*4)],rp=[who,r,now()];TH[c].push(rp);const mm=$('#msgs');if(mm&&cur===c){$('#typ')&&$('#typ').remove();mm.insertAdjacentHTML('beforeend',bub(rp));mm.scrollTop=1e5}},1100+Math.random()*600)}
+function openAct(){$('#actN').style.display='none';sheet(`<div class="grab"></div><h3>Activity</h3>`+[['🔥','Jamie reacted to your post','2m',''],['🎉','3 friends are down tonight','5m','match'],['👋','Alex accepted your invite','1h',''],['📍','Moka Corner is quiet right now','2h','near']].map(a=>`<div class="row2" ${a[3]?`data-sx="${a[3]}"`:''} style="cursor:pointer"><div class="av" style="background:${col(a[1])};font-size:16px">${a[0]}</div><div class="grow"><b style="font-weight:600">${a[1]}</b></div><span class="pill">${a[2]}</span></div>`).join(''))}
+function conf(){const w=$('#cfw');if(!w)return;for(let i=0;i<44;i++){const s=document.createElement('span');s.className='cf';s.style.cssText=`background:${['#ff8f7a','#a78bfa','#ffc08a','#c4b5fd','#fff'][i%5]};--x:${(Math.random()-.5)*340}px;--y:${120+Math.random()*260}px;--r:${Math.random()*720}deg;animation-delay:${Math.random()*.2}s`;w.append(s)}}
+function showMatch(){const g=((G[A]||{}).m||['Jamie','Alex','Sam']).slice(0,3);sheet(`<div class="cfw" id="cfw"></div><div style="text-align:center"><div style="font-size:44px">🎉</div><h3 style="font-size:24px">It's a match!</h3><p>${g.length} of your circle are down. Names revealed.</p><div class="crewrow">${g.map((n,i)=>`<div class="flip" style="animation-delay:${i*.2}s">${av(n)}<small>${n}</small></div>`).join('')}</div></div><div class="modal-actions"><button class="primary-btn" data-sx="close">See plans</button><button class="secondary-btn" data-th="${(G[A]||{n:'Sunday people'}).n}">Open group chat</button></div>`,0,1);conf();navigator.vibrate&&navigator.vibrate([20,40,20])}
+sx.onclick=e=>{const b=e.target.closest('[data-sx],[data-th],[data-q]');if(!b)return;const d=b.dataset;if(d.th)return openChat(d.th);if(d.q)return say(d.q);
+ const f={close:closeSh,inbox:openInbox,send:()=>say($('#cmsg').value),cm:()=>{const v=$('#cin').value.trim();if(!v)return;(CM[cK]=CM[cK]||[]).push(["You",v]);cmSheet(cK);rP()},match:()=>{closeSh();const m=$('.mood-option[data-mood="Food"]');m&&m.click();$('#simulateMatchBtn').click()},near:()=>{closeSh();$('[data-nav=explore]').click()},viewme:()=>{closeSh();sv={u:0,s:0,t:null};showS()},stext:()=>{const v=$('#stxt').value.trim();if(!v)return T('Write something first');SD.You.push(v);closeSh();rSt();T('Added to your story')},saveprof:saveProf,logout:()=>location.reload(),delc:()=>{closeSh();T('Demo only: nothing was deleted')}}[d.sx];f&&f()};
+sx.addEventListener('keydown',e=>{if(e.key!=='Enter')return;if(e.target.id==='cmsg')say(e.target.value);if(e.target.id==='cin')sx.querySelector('[data-sx=cm]').click()});
+$('#actBtn').onclick=openAct;$('#dmBtn').onclick=openInbox;
+/* ideas */
+let iid=2;const I=[{id:1,a:'Jamie',h:'@jamie.k',t:"Cheap pizza night? Max €10 each, I'll find the spot #pizza",bud:'€10',time:'Fri 20:30',pl:'',n:2,ago:'12m'},{id:2,a:'Sam',h:'@sam_s',t:'Sunset walk + playlist swap. Zero budget, just vibes. @alexm bring the speaker',bud:'Free',time:'Sat 19:00',pl:'Hilltop',n:3,ago:'1h'}];
+const fi=id=>I.find(x=>x.id==id),hl=t=>esc(t).replace(/(#\w+|@\w+)/g,'<span class="hl">$1</span>');
+function rI(){$('#plist').innerHTML=I.map(x=>{const n=x.n+(x.me?1:0);return `<div class="tw">${av(x.a)}<div class="grow"><div><b>${esc(x.a==='You'?PROF.name:x.a)}</b> <span class="mut">${esc(x.a==='You'?PROF.user:x.h)} · ${x.ago}</span></div><p class="tx">${hl(x.t)}</p><div class="tags">${x.bud?`<span>💶 ${esc(x.bud)}</span>`:''}${x.time?`<span>🕘 ${esc(x.time)}</span>`:''}${x.pl?`<span>📍 ${esc(x.pl)}</span>`:''}</div><div class="tact"><button data-cm="i${x.id}">💬 ${(CM['i'+x.id]||[]).length}</button><button data-ji="${x.id}" class="${x.me?'on':''}">🙌 ${n} in</button><button data-bo="${x.id}" class="${x.bo?'on':''}">↻ ${x.bo?1:0}</button>${n>=3?`<button class="go" data-mk="${x.id}">⚡ Make it a plan</button>`:''}</div></div></div>`}).join('')}
+function mkPlan(x){$('#pIdea').value=x.t.slice(0,140);$('#pIdea').dispatchEvent(new Event('input'));const m=(x.bud||'').match(/\d+/);$('#bRange').value=/free/i.test(x.bud||'')?0:m?Math.min(60,Math.round(+m[0]/5)*5):15;$('#bRange').dispatchEvent(new Event('input'));if(x.time){$('#pTime').value=x.time;$('#pTime').dispatchEvent(new Event('input'))}__go('pulse');T('Idea loaded into your pulse')}
+$('#itxt').oninput=e=>{$('#icount').textContent=e.target.value.length+'/280'};
+$('#ipost').onclick=()=>{const t=$('#itxt').value.trim();if(!t)return T('Write your idea first');const x={id:++iid,a:'You',h:'@you',t,bud:$('#ibud').value.trim(),time:$('#itime').value.trim(),pl:$('#iplace').value.trim(),n:0,me:1,ago:'now'};I.unshift(x);['#itxt','#ibud','#itime','#iplace'].forEach(s=>$(s).value='');$('#icount').textContent='0/280';rP();T('Idea posted to your circle');
+ [[1800,'Jamie','Count me in'],[3800,'Alex',"I'm in, what's the budget?"],[5800,'Sam','Love this. That time works for me']].forEach(([ms,w,tx])=>setTimeout(()=>{(CM['i'+x.id]=CM['i'+x.id]||[]).push([w,tx]);x.n++;if(tab==='ideas')rI();T(w+' replied to your idea')},ms))};
+$('#homeComp').onclick=()=>{__go('feed');tab='ideas';rP();setTimeout(()=>$('#itxt').focus(),350)};
+/* free-form pulse */
+const KW=[['Food',/pizza|food|eat|dinner|lunch|brunch|burger|souvlaki|coffee|dessert|drink|cocktail|bar\b|taverna/i,'Food first 🍜'],['Move',/walk|run|hike|bike|beach|swim|football|basket|gym|sunset|park/i,'Get moving 🚶'],['Wildcard',/surprise|random|party|karaoke|game|bowling|birthday|concert|festival/i,'Wildcard 🎲'],['Chill',/chill|movie|netflix|couch|quiet|talk|stay in|board/i,'Low-key ☁️']];
+$('#pIdea').oninput=e=>{const v=e.target.value;st().idea=v;const k=KW.find(x=>x[1].test(v));$('#pDet').textContent=k?'✨ Matched your vibe: '+k[2]:'';if(k){const b=$('.mood-option[data-mood="'+k[0]+'"]');b&&b.click()}};
+$('#bRange').oninput=e=>{const v=+e.target.value;st().budgetEur=v;st().budget=v<=10?'Low':v<=30?'Medium':'Open';$('#bLab').textContent=v>=60?'No limit':v===0?'Free':'€'+v};$('#bRange').dispatchEvent(new Event('input'));
+$('#pTime').oninput=e=>{const v=e.target.value.trim();if(v){st().time=v;$$('.chip[data-time]').forEach(x=>x.classList.remove('selected'))}};$$('.chip[data-time]').forEach(b=>b.addEventListener('click',()=>{$('#pTime').value=''}));
+/* stories */
+const SD={Jamie:["Board-game café tonight?","Loser buys dessert"],Alex:["Sunset walk was unreal 🌅"],Sam:["Anyone free Saturday?","Who's in for Saturday?"],You:[]};
+function rSt(){SSL=[['You',SD.You]].concat(F.filter(f=>f[2]==='on').map(f=>[f[0],SD[f[0]]||['Just joined Down']]));$('#stories').innerHTML=SSL.map((s,i)=>`<button class="story" data-s="${i}"><div class="ring ${seen.has(s[0])?'seen':''}"><i>${av(s[0])}${i?'':'<u>+</u>'}</i></div><span>${s[0]==='You'?'Your story':esc(s[0])}</span></button>`).join('')}
+function showS(){clearTimeout(sv.t);const n=SSL[sv.u][0],sl=SSL[sv.u][1],el=$('#sv'),s=sl[sv.s],media=typeof s==='object';seen.add(n);el.classList.add('open');el.style.background=media?'#000':gr(s+n);
+ el.innerHTML=(media?(s.v?`<video class="smed" src="${s.url}" autoplay muted playsinline></video>`:`<img class="smed" src="${s.url}" alt="">`):'')+`<div class="bars">${sl.map((_,i)=>`<i><b class="${i<sv.s?'d':i===sv.s?'a':''}" style="animation-duration:${media&&s.v?6:3.2}s"></b></i>`).join('')}</div><div class="meta">${av(n)}<b>${n==='You'?esc(PROF.name):n}</b><span class="grow"></span><button class="act" data-x="1">✕</button></div><div class="stt">${media?esc(s.cap||''):esc(s)}</div><div class="sr" data-keep>${['❤️','🔥','😂'].map(r=>`<button data-r="${r}">${r}</button>`).join('')}</div>`;sv.t=setTimeout(nextS,media&&s.v?6000:3200)}
+function closeS(){clearTimeout(sv.t);$('#sv').classList.remove('open');rSt()}
+function nextS(){const sl=SSL[sv.u][1];if(sv.s<sl.length-1)sv.s++;else{sv.u++;sv.s=0;if(sv.u>=SSL.length)return closeS()}showS()}
+$('#stories').onclick=e=>{const b=e.target.closest('.story');if(!b)return;const i=+b.dataset.s;if(!i)return storySheet();sv={u:i,s:0,t:null};showS()};
+$('#sv').onclick=e=>{const r=e.target.closest('[data-r]');if(e.target.closest('[data-x]'))return closeS();if(r){heart($('#sv .stt'));return T('Sent '+r.dataset.r+' to '+SSL[sv.u][0])}nextS()};
+const o=window.SX,OR={home:0,pulse:1,'pulse-status':1,match:1,revealed:3,explore:2,plans:3,you:4,friends:5,groups:5,feed:5,settings:5};
+window.SX=n=>{o(n);const s=$('.screen.active');if(s){const i=OR[n]||0;s.style.setProperty('--dx',(i>=pi?26:-26)+'px');[...s.children].forEach((c,j)=>c.style.setProperty('--i',Math.min(j,9)));pi=i}
+ if(n==='pulse'||(n==='home'&&!st().matched))ms=false;if(n==='home')rSt();{const s=st();if((n==='home'||n==='pulse-status')&&s.sent&&s.idea)$('#pulseSummary').textContent='“'+s.idea.slice(0,38)+'” · '+s.time+' · '+(s.budgetEur>=60?'no limit':s.budgetEur?'€'+s.budgetEur:'free')}if(n==='match'&&!ms){ms=true;setTimeout(showMatch,380)}};
+rSt();updateLocalContext();setInterval(updateLocalContext,30000);
+
+/* profile, media, settings */
+let MED=null;const prev=m=>`<div class="mprev">${m.v?`<video src="${m.url}" muted playsinline></video>`:`<img src="${m.url}" alt="">`}</div><button class="act" id="pmx">Remove</button>`;
+const pick=f=>{if(!f)return null;if(f.size>40e6){T('File is too large (max 40 MB)');return null}return{url:URL.createObjectURL(f),v:/^video/.test(f.type)}};
+$('#pfile').onchange=e=>{const m=pick(e.target.files[0]);e.target.value='';if(m){MED=m;$('#pmed').innerHTML=prev(m)}};
+$('#pmed').onclick=e=>{if(e.target.id==='pmx'){MED=null;$('#pmed').innerHTML=''}};
+function renderProf(){['pfAv','stAv','hcAv','icAv'].forEach(i=>$('#'+i).innerHTML=av('You'));$('#pfName').textContent=$('#stName').textContent=PROF.name;$('#pfUser').textContent=$('#stUser').textContent=PROF.user;$('#pfBio').textContent=PROF.bio}
+let tmpPhoto='';function editProf(){tmpPhoto='';sheet(`<div class="grab"></div><h3>Edit profile</h3><div style="display:flex;align-items:center;gap:14px;margin-bottom:8px"><div id="epAv">${av('You')}</div><label class="chip" style="cursor:pointer">Change photo<input type="file" accept="image/*" id="epFile"></label></div><input class="in" id="epName" value="${esc(PROF.name==='You'?'':PROF.name)}" placeholder="Display name" maxlength="24"><input class="in" id="epUser" value="${esc(PROF.user.slice(1))}" placeholder="Username" maxlength="20"><input class="in" id="epBio" value="${esc(PROF.bio)}" placeholder="Bio (optional)" maxlength="80"><input class="in" id="epPhone" value="${esc(PROF.phone)}" placeholder="Phone (private)" maxlength="20"><input class="in" id="epMail" value="${esc(PROF.email)}" placeholder="Email (private)" maxlength="40"><button class="primary-btn" data-sx="saveprof">Save changes</button>`)}
+function saveProf(){const u=$('#epUser').value.trim().replace('@','');if(!/^[a-z0-9._]{3,20}$/i.test(u))return T('Username: 3-20 letters, numbers, . or _');const n=$('#epName').value.trim();if(!n)return T('Add a display name');Object.assign(PROF,{name:n,user:'@'+u,bio:$('#epBio').value.trim(),phone:$('#epPhone').value.trim(),email:$('#epMail').value.trim()});if(tmpPhoto)PROF.photo=tmpPhoto;renderProf();rSt();rP();closeSh();T('Profile updated')}
+sx.addEventListener('change',e=>{const t=e.target;if(t.id==='epFile'){const m=pick(t.files[0]);if(m&&!m.v){tmpPhoto=m.url;$('#epAv').innerHTML=`<div class="av" style="background:url(${m.url}) center/cover"></div>`}}if(t.id==='sfile'){const m=pick(t.files[0]);if(m){SD.You.push(Object.assign(m,{cap:''}));closeSh();rSt();T('Added to your story')}}});
+function storySheet(){const n=SD.You.length;sheet(`<div class="grab"></div><h3>Your story</h3>${n?`<div class="row2" data-sx="viewme" style="cursor:pointer">${av('You')}<div class="grow"><b>View my story</b><small>${n} item${n>1?'s':''} · visible to your circle for 24h</small></div></div>`:''}<label class="primary-btn" style="cursor:pointer;margin-top:8px">Add photo or video<input type="file" accept="image/*,video/*" id="sfile"></label><input class="in" id="stxt" placeholder="Or write a text story" maxlength="80"><button class="secondary-btn" data-sx="stext">Post text story</button>`)}
+$('#editProf').onclick=editProf;$('#stAcc').onclick=editProf;$('#addFr').onclick=()=>__go('friends');
+/* friend search */
+const DIR={maria_k:'Maria K.',nikos:'Nikos P.','eleni.p':'Eleni P.',dimi_d:'Dimi D.',alexm:'Alex M.'};
+$('#faddBtn').onclick=()=>{const v=$('#fin').value.trim(),k=v.replace('@','').toLowerCase();let ok;if(ft==='u')ok=/^[a-z0-9._]{3,20}$/i.test(k);else if(ft==='e')ok=/^[^@\s]+@[^@\s]+\.[a-z]{2,}$/i.test(v);else ok=v.replace(/\D/g,'').length>=8;
+ if(!ok)return T('Check the '+({u:'username',e:'email',p:'phone number'})[ft]);$('#fres').innerHTML='<p class="micro-note" style="margin-top:10px">Searching…</p>';
+ setTimeout(()=>{$('#fres').innerHTML=ft==='u'&&DIR[k]?`<div class="row2">${av(DIR[k])}<div class="grow"><b>${DIR[k]}</b><small>@${k} · on Down</small></div><button class="chip" data-fa="${k}">Add</button></div>`:`<div class="row2"><div class="grow"><b>${esc(v)}</b><small>Not on Down yet. We'll send them an invite.</small></div><button class="chip" data-fi="${esc(v)}">Invite</button></div>`},700)};
+$('#fres').onclick=e=>{const b=e.target.closest('button');if(!b)return;const d=b.dataset;if(d.fa)addF(DIR[d.fa],'@'+d.fa);else if(d.fi){const n=ft==='u'?d.fi.replace('@',''):ft==='e'?d.fi.split('@')[0]:'Contact '+d.fi.replace(/\D/g,'').slice(-3);addF(n.charAt(0).toUpperCase()+n.slice(1),d.fi)}$('#fres').innerHTML='';$('#fin').value=''};
+/* settings */
+const ACC=[['#ff8f7a','#ff7a8a','#ffa26b'],['#4facfe','#4facfe','#2ee6d0'],['#34d399','#34d399','#bef264'],['#a78bfa','#8b5cf6','#ec4899']];
+$('#acc').onclick=e=>{const b=e.target.closest('.chip');if(!b)return;sel1($('#acc'),b);const a=ACC[+b.dataset.a],r=document.documentElement.style;r.setProperty('--lime',a[0]);r.setProperty('--g1',a[1]);r.setProperty('--g2',a[2])};
+$('#setAud').onclick=e=>{const b=e.target.closest('.chip');if(b)sel1($('#setAud'),b)};
+$('#rmT').addEventListener('click',()=>$('.phone').classList.toggle('rm',$('#rmT').classList.contains('on')));
+$('#dlData').onclick=()=>T('Export requested. You will get it by email (demo)');
+$('#logout').onclick=()=>sheet(`<div class="grab"></div><h3>Log out?</h3><p>You can sign back in any time.</p><div class="modal-actions"><button class="primary-btn" data-sx="logout">Log out</button><button class="secondary-btn" data-sx="close">Cancel</button></div>`,0,1);
+$('#delAcc').onclick=()=>sheet(`<div class="grab"></div><h3>Delete account?</h3><p>Your posts, ideas and circles would be removed permanently. This is a demo, so nothing is deleted.</p><div class="modal-actions"><button class="primary-btn" data-sx="delc">Delete</button><button class="secondary-btn" data-sx="close">Cancel</button></div>`,0,1);
+renderProf();
+setA(0);rF();rG();rP();
+})();
+</script>
+
+<script>
+(()=>{const P={"dice": "<rect x=\"3\" y=\"3\" width=\"18\" height=\"18\" rx=\"5\"/><path d=\"M8.5 8.5h.01M15.5 8.5h.01M12 12h.01M8.5 15.5h.01M15.5 15.5h.01\"/>", "food": "<path d=\"M7 3v6a2 2 0 0 0 4 0V3M9 11v10M17 21V3c-2 1.5-3 4-3 7 0 2 1 3 3 4\"/>", "compass": "<circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"m15.5 8.5-2 5-5 2 2-5z\"/>", "cloud": "<path d=\"M7 18a4 4 0 0 1-.5-8A5.5 5.5 0 0 1 17 9a4.5 4.5 0 0 1 0 9z\"/>", "pin": "<path d=\"M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z\"/><circle cx=\"12\" cy=\"9.5\" r=\"2.5\"/>", "lock": "<rect x=\"5\" y=\"11\" width=\"14\" height=\"10\" rx=\"3\"/><path d=\"M8 11V8a4 4 0 0 1 8 0v3\"/>", "spark": "<path d=\"M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8zM19 16v4M17 18h4\"/>", "bulb": "<path d=\"M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z\"/>", "users": "<circle cx=\"9\" cy=\"8\" r=\"3.5\"/><path d=\"M2.5 20a6.5 6.5 0 0 1 13 0M16 4.5a3.5 3.5 0 0 1 0 7M18 14.5a6.5 6.5 0 0 1 3.5 5.5\"/>", "edit": "<path d=\"M4 20h4L19 9a2.8 2.8 0 0 0-4-4L4 16z\"/>", "euro": "<path d=\"M17.5 7A6.5 6.5 0 1 0 17.5 17M4 10h9M4 14h9\"/>", "clock": "<circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M12 7v5l3 2\"/>", "chat": "<path d=\"M20 12a8 8 0 0 1-11.6 7.1L4 20l1-4.2A8 8 0 1 1 20 12z\"/>", "mail": "<rect x=\"3\" y=\"5\" width=\"18\" height=\"14\" rx=\"3\"/><path d=\"m4 8 8 6 8-6\"/>", "heart": "<path d=\"M12 20s-7.5-4.6-7.5-10A4.2 4.2 0 0 1 12 7.5 4.2 4.2 0 0 1 19.5 10c0 5.4-7.5 10-7.5 10z\"/>", "check": "<path d=\"m5 12.5 4.5 4.5L19 7.5\"/>", "x": "<path d=\"M6 6l12 12M18 6 6 18\"/>", "repeat": "<path d=\"M17 3l3 3-3 3M4 11V9a3 3 0 0 1 3-3h13M7 21l-3-3 3-3M20 13v2a3 3 0 0 1-3 3H4\"/>", "bolt": "<path d=\"M13 3 5 13.5h6L10 21l8-10.5h-6z\"/>", "trash": "<path d=\"M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13\"/>", "camera": "<path d=\"M4 8h3l2-3h6l2 3h3v11H4z\"/><circle cx=\"12\" cy=\"13\" r=\"3.5\"/>", "clip": "<path d=\"m20 11-8.5 8.5a5 5 0 0 1-7-7L13 4a3.3 3.3 0 0 1 4.7 4.7L9.3 17a1.7 1.7 0 0 1-2.4-2.4L14 7.5\"/>", "phone": "<path d=\"M6 3h4l2 5-2.5 1.5a11 11 0 0 0 5 5L16 12l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 4 6a2 2 0 0 1 2-3z\"/>", "coffee": "<path d=\"M5 8h11v6a5 5 0 0 1-5 5h-1a5 5 0 0 1-5-5zM16 10h2a2.5 2.5 0 0 1 0 5h-2M8 3v2M12 3v2\"/>", "leaf": "<path d=\"M5 19c0-8 4-13 14-14 0 9-4 14-12 14M5 19l7-7\"/>", "sun": "<circle cx=\"12\" cy=\"12\" r=\"4\"/><path d=\"M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6 7 7M17 17l1.4 1.4M5.6 18.4 7 17M17 7l1.4-1.4\"/>", "music": "<path d=\"M4 15v-3a8 8 0 0 1 16 0v3M4 15h3v5H5a1 1 0 0 1-1-1zM20 15h-3v5h2a1 1 0 0 0 1-1z\"/>", "bag": "<path d=\"M5 8h14l-1 12H6zM9 8a3 3 0 0 1 6 0\"/>", "xc": "<circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"m9 9 6 6M15 9l-6 6\"/>", "flame": "<path d=\"M12 21c4 0 6-2.6 6-6 0-3-2-4.5-3-7-1 1.5-1 2.5-2 3 0-3-1-6-4-8 0 4-3 6-3 10 0 4.4 2.5 8 6 8z\"/>"},M={"🎲": "dice", "🎳": "dice", "🍜": "food", "🍢": "food", "🍰": "food", "🚶": "compass", "🏃": "compass", "☁️": "cloud", "☁": "cloud", "📍": "pin", "🔒": "lock", "✨": "spark", "✳": "spark", "🎉": "spark", "💡": "bulb", "👥": "users", "🫂": "users", "👋": "users", "📝": "edit", "💶": "euro", "🕘": "clock", "◷": "clock", "💬": "chat", "✉": "mail", "♡": "heart", "🤍": "heart", "↻": "repeat", "⚡": "bolt", "🗑": "trash", "📸": "camera", "📎": "clip", "📞": "phone", "☕": "coffee", "🌳": "leaf", "🌅": "sun", "🌆": "sun", "🎧": "music", "🛍": "bag", "✅": "check", "✓": "check", "👻": "xc", "✕": "x", "🔥": "flame", "🙌": "check", "❤️": "heart!"};
+const RX=new RegExp(Object.keys(M).sort((a,b)=>b.length-a.length).join('|'));
+const esc=s=>s.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+const svg=k=>{const f=M[k].endsWith('!'),n=M[k].replace('!','');return `<svg class="i${f?' f':''}" viewBox="0 0 24 24" aria-hidden="true">${P[n]}</svg>`};
+function fix(t){const v=t.nodeValue;if(!RX.test(v)||(t.parentElement&&t.parentElement.closest('[data-keep],textarea,script,style,title')))return;
+ const g=new RegExp(RX.source,'g'),s=document.createElement('span');s.innerHTML=esc(v).replace(g,svg);t.replaceWith(...s.childNodes)}
+function walk(r){if(r.nodeType===3)return fix(r);if(r.nodeType!==1||r.closest('[data-keep],script,style'))return;const w=document.createTreeWalker(r,NodeFilter.SHOW_TEXT),a=[];let n;while(n=w.nextNode())a.push(n);a.forEach(fix)}
+walk(document.body);
+new MutationObserver(ms=>{ms.forEach(m=>{if(m.type==='characterData')fix(m.target);else m.addedNodes.forEach(walk)})}).observe(document.body,{childList:true,subtree:true,characterData:true});
+})();
+</script>
+</body>
+</html>
